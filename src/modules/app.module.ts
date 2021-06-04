@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { ChatModule } from './chat/chat.module';
 @Module({
   imports: [
     //habilitar variables de entorno
@@ -23,6 +24,7 @@ import { UsersModule } from './users/users.module';
       }),
     }),
     UsersModule,
+    ChatModule,
     //modulos
   ],
 })
