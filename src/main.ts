@@ -8,6 +8,7 @@ import { AppModule } from './modules/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  //Configuracion de swagger
   const config = new DocumentBuilder()
     .setTitle('Documentacion de proyecto')
     .setDescription('Proyecto similar a workana / chambeala')
@@ -35,6 +36,7 @@ async function bootstrap() {
 
   //Prefijo
   app.setGlobalPrefix('api');
+  //Cors
   app.enableCors();
 
   await app.listen(process.env.PORT || 3000);
