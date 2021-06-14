@@ -4,10 +4,15 @@ import * as bodyParser from 'body-parser';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
 import { AppModule } from './modules/app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
   //Configuracion de swagger
   const config = new DocumentBuilder()
     .setTitle('Documentacion de proyecto')

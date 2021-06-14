@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { IsEmail, Length } from 'class-validator';
 import {
@@ -9,9 +8,12 @@ import {
   OneToMany,
 } from 'typeorm';
 import Entity from './base.entity';
-@TOEntity('users')
-export default class User extends Entity {
-  constructor(user: Partial<User>) {
+import Review from './review.entity';
+import * as bcrypt from 'bcrypt';
+
+@TOEntity('usuario')
+export default class Usuario extends Entity {
+  constructor(user: Partial<Usuario>) {
     super();
     Object.assign(this, user);
   }
@@ -22,26 +24,25 @@ export default class User extends Entity {
   })
   @Length(1, 255, { message: 'El correo electrónico está vacío' })
   @Column()
-  email: string;
+  us_correo: string;
 
   @Index()
   @Length(3, 255, { message: 'Debe tener al menos 3 caracteres' })
   @Column()
-  nombres: string;
+  us_nombre: string;
 
   @Index()
   @Length(3, 255, { message: 'Debe tener al menos 3 caracteres' })
   @Column()
-  apellidos: string;
-
-  @Index()
-  @Column({ default: 'user' })
-  role: string;
+  us_apellido: string;
 
   @Exclude()
   @Column()
   @Length(6, 255, { message: 'Debe tener al menos 6 caracteres' })
   password: string;
+
+  @OneToMany(() => Review, (review) => review.id)
+  reviews: Review[];
 
   // @OneToMany(() => Post, (post) => post.user)
   // posts: Post[];
