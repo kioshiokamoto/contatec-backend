@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
+import * as cookieParser from 'cookie-parser';
 import { AppModule } from './modules/app.module';
 import { ValidationPipe } from '@nestjs/common';
 
@@ -32,6 +33,7 @@ async function bootstrap() {
         extended: true,
       }),
     )
+    .use(cookieParser())
     .use(
       rateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutos

@@ -1,15 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CreateUserDto } from './dtos/';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { ActivateEmailDto, CreateUserDto, LoginDto } from './dtos/';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @Get()
-  createUser(@Body() dto: CreateUserDto) {
-    return this.userService.createUser(dto);
-  }
 
   @Post('/register')
   register(@Body() dto: CreateUserDto) {
@@ -17,11 +13,17 @@ export class UserController {
   }
 
   @Post('/activation')
-  activateEmail() {}
+  activateEmail(@Body() dto: ActivateEmailDto) {
+    return this.userService.activateEmail(dto);
+  }
 
   @Post('/login')
-  login() {}
+  login(@Body() dto: LoginDto, @Res() res: Response) {
+    return this.userService.login(dto, res);
+  }
 
   @Post('/refresh_token')
-  getAccessToken() {}
+  getAccessToken(@Req() req: Request) {
+    return this.userService.getAccessToken(req);
+  }
 }
