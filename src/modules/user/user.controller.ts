@@ -1,6 +1,12 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { ActivateEmailDto, CreateUserDto, LoginDto } from './dtos/';
+import {
+  ActivateEmailDto,
+  CreateUserDto,
+  FacebookLoginDto,
+  GoogleLoginDto,
+  LoginDto,
+} from './dtos/';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -25,5 +31,13 @@ export class UserController {
   @Post('/refresh_token')
   getAccessToken(@Req() req: Request) {
     return this.userService.getAccessToken(req);
+  }
+  @Post('/google_login')
+  googleLogin(@Body() dto: GoogleLoginDto, @Res() res: Response) {
+    this.userService.googleLogin(dto, res);
+  }
+  @Post('/facebook_login')
+  facebookLogin(@Body() dto: FacebookLoginDto, @Res() res: Response) {
+    this.userService.facebookLogin(dto, res);
   }
 }

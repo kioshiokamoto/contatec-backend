@@ -16,7 +16,7 @@ async function bootstrap() {
   );
   //Configuracion de swagger
   const config = new DocumentBuilder()
-    .setTitle('Documentacion de proyecto')
+    .setTitle('Documentacion de proyecto Contatec')
     .setDescription('Proyecto similar a workana / chambeala')
     .setVersion('0.0.1')
     .build();

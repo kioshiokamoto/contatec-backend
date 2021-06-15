@@ -1,12 +1,25 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import Usuario from 'src/entity/usuario.entity';
-import { Repository } from 'typeorm';
-import { ActivateEmailDto, CreateUserDto, LoginDto } from './dtos';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
-import sendEmail from 'src/utils/sendMail';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Request, Response } from 'express';
+import { google } from 'googleapis';
+import fetch from 'node-fetch';
+import {
+  ActivateEmailDto,
+  CreateUserDto,
+  FacebookLoginDto,
+  GoogleLoginDto,
+  LoginDto,
+} from './dtos';
+import Usuario from 'src/entity/usuario.entity';
+import sendEmail from 'src/utils/sendMail';
+
+const { OAuth2 } = google.auth;
+
+const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
+
 const { CLIENT_URL } = process.env;
 const logger = new Logger();
 @Injectable()
@@ -108,6 +121,118 @@ export class UserService {
       );
 
       return { access_token };
+    } catch (error) {
+      return error;
+    }
+  }
+  async googleLogin(dto: GoogleLoginDto, res: Response) {
+    //Verificar funcionamiento con login!
+    try {
+      const { tokenId } = dto;
+      const verify = await client.verifyIdToken({
+        idToken: tokenId,
+        audience: process.env.MAILING_SERVICE_CLIENT_ID,
+      });
+      const { email_verified, email, name, picture } = verify.getPayload();
+
+      const password = email + process.env.GOOGLE_SECRET;
+
+      if (!email_verified) {
+        throw new HttpException(
+          'Verificacion de correo fallida',
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+      const user = await this.usuariosRepository.findOne({ us_correo: email });
+      if (user) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          throw new HttpException(
+            'Contraseña erronea',
+            HttpStatus.UNAUTHORIZED,
+          );
+        }
+        const refresh_token = createRefreshToken({ id: user.id });
+        res.cookie('refreshtoken', refresh_token, {
+          httpOnly: true,
+          path: '/api/user/refresh_token',
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
+      } else {
+        const newUser = this.usuariosRepository.create({
+          us_nombre: name.split(' ')[0],
+          us_apellido: name.split(' ')[1],
+          us_correo: email,
+          password,
+          avatar: picture,
+        });
+        await newUser.save();
+
+        const refresh_token = createRefreshToken({ id: newUser.id });
+        res.cookie('refreshtoken', refresh_token, {
+          httpOnly: true,
+          path: '/api/user/refresh_token',
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+  async facebookLogin(dto: FacebookLoginDto, res: Response) {
+    try {
+      const { accessToken, userID } = dto;
+
+      const URL = `https://graph.facebook.com/v2.9/${userID}/?fields=name,email,picture&access_token=${accessToken}`;
+
+      //Verificar si se puede cambiar por modulo http de nestjs
+      const data = await fetch(URL)
+        .then((res) => res.json())
+        .then((res) => {
+          return res;
+        });
+
+      const { email, name, picture } = data;
+
+      const password = email + process.env.FACEBOOK_SECRET;
+
+      const user = await this.usuariosRepository.findOne({ us_correo: email });
+      if (user) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          throw new HttpException(
+            'Contraseña erronea',
+            HttpStatus.UNAUTHORIZED,
+          );
+        }
+
+        const refresh_token = createRefreshToken({ id: user.id });
+        res.cookie('refreshtoken', refresh_token, {
+          httpOnly: true,
+          path: '/api/user/refresh_token',
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
+      } else {
+        const newUser = this.usuariosRepository.create({
+          us_nombre: name.split(' ')[0],
+          us_apellido: name.split(' ')[1],
+          us_correo: email,
+          password,
+          avatar: picture.data.url,
+        });
+        await newUser.save();
+
+        const refresh_token = createRefreshToken({ id: newUser.id });
+        res.cookie('refreshtoken', refresh_token, {
+          httpOnly: true,
+          path: '/api/user/refresh_token',
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
+      }
     } catch (error) {
       return error;
     }
