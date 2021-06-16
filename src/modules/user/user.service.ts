@@ -10,8 +10,10 @@ import {
   ActivateEmailDto,
   CreateUserDto,
   FacebookLoginDto,
+  ForgotPasswordDto,
   GoogleLoginDto,
   LoginDto,
+  ResetPasswordDto,
 } from './dtos';
 import Usuario from 'src/entity/usuario.entity';
 import sendEmail from 'src/utils/sendMail';
@@ -121,6 +123,20 @@ export class UserService {
       );
 
       return { access_token };
+    } catch (error) {
+      return error;
+    }
+  }
+  async forgotPassword(dto: ForgotPasswordDto) {
+    try {
+      console.log('forgot');
+    } catch (error) {
+      return error;
+    }
+  }
+  async resetPassword(dto: ResetPasswordDto) {
+    try {
+      console.log('forgot');
     } catch (error) {
       return error;
     }

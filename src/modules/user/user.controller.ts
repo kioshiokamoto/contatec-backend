@@ -4,8 +4,10 @@ import {
   ActivateEmailDto,
   CreateUserDto,
   FacebookLoginDto,
+  ForgotPasswordDto,
   GoogleLoginDto,
   LoginDto,
+  ResetPasswordDto,
 } from './dtos/';
 import { UserService } from './user.service';
 
@@ -21,6 +23,14 @@ export class UserController {
   @Post('/activation')
   activateEmail(@Body() dto: ActivateEmailDto) {
     return this.userService.activateEmail(dto);
+  }
+  @Post('/forgot')
+  forgotPassword(@Body() dto: ForgotPasswordDto) {
+    this.userService.forgotPassword(dto);
+  }
+  @Post('/reset')
+  resetPassword(@Body() dto: ResetPasswordDto) {
+    this.userService.resetPassword(dto);
   }
 
   @Post('/login')
