@@ -26,11 +26,11 @@ export class UserController {
   }
   @Post('/forgot')
   forgotPassword(@Body() dto: ForgotPasswordDto) {
-    this.userService.forgotPassword(dto);
+    return this.userService.forgotPassword(dto);
   }
   @Post('/reset')
-  resetPassword(@Body() dto: ResetPasswordDto) {
-    this.userService.resetPassword(dto);
+  resetPassword(@Req() req: Request) {
+    return this.userService.resetPassword(req);
   }
 
   @Post('/login')

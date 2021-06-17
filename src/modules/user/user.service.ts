@@ -39,7 +39,7 @@ export class UserService {
       }
       const activation_token = createActivationToken(dto);
 
-      const url = `${CLIENT_URL}/user/activate/${activation_token}`;
+      const url = `${CLIENT_URL}/usuario/activar/${activation_token}`;
 
       sendEmail(us_correo, url, 'Click aquí');
       return {
@@ -81,12 +81,14 @@ export class UserService {
     try {
       const { us_correo, password } = dto;
       const user = await this.usuariosRepository.findOne({ us_correo });
+
       if (!user) {
         throw new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
       }
+
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        throw new HttpException('Contraseña erronea', HttpStatus.UNAUTHORIZED);
+        throw new HttpException('Contraseña errada', HttpStatus.FORBIDDEN);
       }
       const refresh_token = createRefreshToken({ id: user.id });
       res.cookie('refreshtoken', refresh_token, {
@@ -96,7 +98,7 @@ export class UserService {
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
-      return error;
+      res.status(error.status).json(error);
     }
   }
   async getAccessToken(req: Request) {
@@ -129,14 +131,37 @@ export class UserService {
   }
   async forgotPassword(dto: ForgotPasswordDto) {
     try {
-      console.log('forgot');
+      const { us_correo } = dto;
+      const user = await this.usuariosRepository.findOne({ us_correo });
+      if (!user) {
+        throw new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
+      }
+      const access_token = createAccessToken({ id: user.id });
+      const url = `${CLIENT_URL}/usuario/resetear/${access_token}`;
+
+      sendEmail(us_correo, url, 'Resetear password');
+
+      return {
+        message: 'Se envio mensaje a tu correo electrónico',
+      };
     } catch (error) {
       return error;
     }
   }
-  async resetPassword(dto: ResetPasswordDto) {
+  async resetPassword(req: any) {
     try {
-      console.log('forgot');
+      const { password } = req.body;
+      const passwordHash = await bcrypt.hash(password, 6);
+      const user = await this.usuariosRepository.findOne({ id: req?.user.id });
+
+      if (!user) {
+        throw new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
+      }
+      user.password = passwordHash;
+      user.save();
+      return {
+        message: 'Contraseña a sido cambiada',
+      };
     } catch (error) {
       return error;
     }
@@ -194,7 +219,7 @@ export class UserService {
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       }
     } catch (error) {
-      return error;
+      res.status(error.status).json(error);
     }
   }
   async facebookLogin(dto: FacebookLoginDto, res: Response) {
@@ -251,7 +276,7 @@ export class UserService {
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       }
     } catch (error) {
-      return error;
+      res.status(error.status).json(error);
     }
   }
 }
