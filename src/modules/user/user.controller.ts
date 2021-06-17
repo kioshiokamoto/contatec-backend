@@ -29,7 +29,7 @@ export class UserController {
     return this.userService.forgotPassword(dto);
   }
   @Post('/reset')
-  resetPassword(@Req() req: Request) {
+  resetPassword(@Req() req: Request, @Body() dto: ResetPasswordDto) {
     return this.userService.resetPassword(req);
   }
 
