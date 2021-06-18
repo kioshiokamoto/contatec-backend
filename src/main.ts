@@ -35,7 +35,7 @@ async function bootstrap() {
     },
     customCss: `.topbar-wrapper img {content:url(https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/UNMSM_coatofarms_seal.svg/1200px-UNMSM_coatofarms_seal.svg.png); width:50px; height:auto;}
     .swagger-ui .topbar { background-color: #000000; border-bottom: 20px solid #CB244D; }`,
-    customSiteTitle: 'Conectec API',
+    customSiteTitle: 'Contatec API',
   };
 
   SwaggerModule.setup('/', app, document, customOptions);
