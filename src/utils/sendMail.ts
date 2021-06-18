@@ -44,8 +44,8 @@ const sendEmail = (to: any, url: string, txt: string) => {
     subject: 'Registro Coredise',
     html: `
         <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%;">
-        <h2 style="text-align: center; text-transform: uppercase;color: teal;">Bienvenido a Coredise</h2>
-        <p>¡Felicidades! Ya casi está listo para comenzar a comprar nuestros productos
+        <h2 style="text-align: center; text-transform: uppercase;color: teal;">Bienvenido a Conectec</h2>
+        <p>¡Felicidades! Ya casi está listo para comenzar a publicar o contratar servicios!.<br/>
         Simplemente haga clic en el botón de abajo para validar su dirección de correo electrónico.
         </p>
 
