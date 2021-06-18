@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import {
   ActivateEmailDto,
@@ -11,10 +12,13 @@ import {
 } from './dtos/';
 import { UserService } from './user.service';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @ApiResponse({ status: 201, description: 'Se envio correo' })
+  @ApiResponse({ status: 409, description: 'Ocurrio un conflicto' })
   @Post('/register')
   register(@Body() dto: CreateUserDto) {
     return this.userService.register(dto);

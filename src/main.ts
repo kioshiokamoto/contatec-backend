@@ -1,5 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerCustomOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
@@ -20,9 +24,18 @@ async function bootstrap() {
     .setDescription('Proyecto similar a workana / chambeala')
     .setVersion('0.0.1')
     .build();
-
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/', app, document);
+
+  const customOptions: SwaggerCustomOptions = {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+    customCss: `.topbar-wrapper img {content:url(https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/UNMSM_coatofarms_seal.svg/1200px-UNMSM_coatofarms_seal.svg.png); width:50px; height:auto;}
+    .swagger-ui .topbar { background-color: #000000; border-bottom: 20px solid #CB244D; }`,
+    customSiteTitle: 'Conectec API',
+  };
+
+  SwaggerModule.setup('/', app, document, customOptions);
 
   //Middlewares
   app

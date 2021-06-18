@@ -46,7 +46,7 @@ export class UserService {
         message: 'Se envio mensaje a tu correo electrónico',
       };
     } catch (error) {
-      //throw new HttpException('ERROR', HttpStatus.CONFLICT);
+      // throw new HttpException('ERROR', HttpStatus.CONFLICT);
       return error;
     }
   }
