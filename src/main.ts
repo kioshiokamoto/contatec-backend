@@ -18,11 +18,14 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  //Prefijo
+  app.setGlobalPrefix('api');
   //Configuracion de swagger
   const config = new DocumentBuilder()
     .setTitle('Documentacion de proyecto Contatec')
     .setDescription('Proyecto similar a workana / chambeala')
     .setVersion('0.0.1')
+    .setBasePath('api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
@@ -54,8 +57,6 @@ async function bootstrap() {
       }),
     );
 
-  //Prefijo
-  app.setGlobalPrefix('api');
   //Cors
   app.enableCors();
 
