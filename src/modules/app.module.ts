@@ -2,7 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-
+import { ReviewModule } from './review/review.module';
+import { WorkModule } from './work/work.module';
+import { PostModule } from './post/post.module';
+import { PayModule } from './pay/pay.module';
+import { MessageModule } from './message/message.module';
 @Module({
   imports: [
     //habilitar variables de entorno
@@ -23,8 +27,13 @@ import { UserModule } from './user/user.module';
         synchronize: true,
       }),
     }),
-    UserModule,
     //modulos
+    UserModule,
+    ReviewModule,
+    WorkModule,
+    PostModule,
+    PayModule,
+    MessageModule,
   ],
 })
 export class AppModule {}
