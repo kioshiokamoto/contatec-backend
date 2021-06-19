@@ -1,13 +1,6 @@
-import {
-  BeforeInsert,
-  Column,
-  Entity as TOEntity,
-  Index,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-} from 'typeorm';
+import { Column, Entity as TOEntity, ManyToOne } from 'typeorm';
 import Entity from './base.entity';
+import Post from './post.entity';
 import Usuario from './usuario.entity';
 
 @TOEntity('review')
@@ -26,6 +19,6 @@ export default class Review extends Entity {
   @ManyToOne(() => Usuario, (usuario) => usuario.id)
   rw_idUsuario: number;
 
-  // @OneToOne(() => Post, (post) => post.id)
-  // rw_idPost: number;
+  @ManyToOne(() => Post, (post) => post.id)
+  rw_idPost: number;
 }
