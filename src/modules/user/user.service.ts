@@ -279,6 +279,24 @@ export class UserService {
       res.status(error.status).json(error);
     }
   }
+  async logout(res: Response) {
+    try {
+      res.clearCookie('refreshtoken', { path: '/api/user/refresh_token' });
+      return {
+        message: 'Contraseña a sido cambiada',
+      };
+    } catch (error) {
+      return error;
+    }
+  }
+  async getUserInfo(req: any) {
+    try {
+      const user = await this.usuariosRepository.findOne({ id: req.user.id });
+      return user;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 function createActivationToken(payload) {

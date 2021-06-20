@@ -16,7 +16,7 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  //Inicio de sesión
   @ApiResponse({ status: 201, description: 'Se envio correo' })
   @ApiResponse({ status: 409, description: 'Ocurrio un conflicto' })
   @Post('/register')
@@ -48,10 +48,16 @@ export class UserController {
   }
   @Post('/google_login')
   googleLogin(@Body() dto: GoogleLoginDto, @Res() res: Response) {
-    this.userService.googleLogin(dto, res);
+    return this.userService.googleLogin(dto, res);
   }
   @Post('/facebook_login')
   facebookLogin(@Body() dto: FacebookLoginDto, @Res() res: Response) {
-    this.userService.facebookLogin(dto, res);
+    return this.userService.facebookLogin(dto, res);
+  }
+
+  //Datos de usuario
+  @Get('/info')
+  getUserInfo(@Req() req: Request) {
+    return this.userService.getUserInfo(req);
   }
 }
