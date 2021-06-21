@@ -27,6 +27,10 @@ export class UserModule implements NestModule {
         path: '/user/info',
         method: RequestMethod.GET,
       },
+      {
+        path: '/user/update',
+        method: RequestMethod.ALL,
+      },
     );
   }
 }

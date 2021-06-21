@@ -17,6 +17,7 @@ import {
 } from './dtos';
 import Usuario from 'src/entity/usuario.entity';
 import sendEmail from 'src/utils/sendMail';
+import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
 
 const { OAuth2 } = google.auth;
 
@@ -293,6 +294,38 @@ export class UserService {
     try {
       const user = await this.usuariosRepository.findOne({ id: req.user.id });
       return user;
+    } catch (error) {
+      return error;
+    }
+  }
+  async updateUser(dto: UpdateUserDto, req: any) {
+    try {
+      const { us_nombre, us_apellido, avatar, password } = dto;
+      const user = await this.usuariosRepository.findOne({ id: req.user.id });
+      if (!user) {
+        throw new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
+      }
+      if (us_nombre) {
+        user.us_nombre = us_nombre;
+        //Verificar si tiene nombre
+      }
+      if (us_apellido) {
+        user.us_apellido = us_apellido;
+        //Verificar si tiene apellido
+      }
+      if (avatar) {
+        user.avatar = avatar;
+        //Verificar si tiene avatar
+      }
+      if (password) {
+        const passwordHash = await bcrypt.hash(password, 6);
+        user.password = passwordHash;
+        //Verificar si tiene password
+      }
+      user.save();
+      return {
+        message: 'Usuario a sido actualizado',
+      };
     } catch (error) {
       return error;
     }

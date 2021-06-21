@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Req, Res } from '@nestjs/common';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
 import {
   ActivateEmailDto,
   CreateUserDto,
@@ -55,9 +56,18 @@ export class UserController {
     return this.userService.facebookLogin(dto, res);
   }
 
+  @Get('/logout')
+  logout(@Res() res: Response) {
+    return this.userService.logout(res);
+  }
   //Datos de usuario
   @Get('/info')
   getUserInfo(@Req() req: Request) {
     return this.userService.getUserInfo(req);
+  }
+
+  @Patch('/update')
+  updateUser(@Body() dto: UpdateUserDto, @Req() req: Request) {
+    return this.userService.updateUser(dto, req);
   }
 }
