@@ -77,7 +77,6 @@ export class UserService {
       return error;
     }
   }
-
   async login(dto: LoginDto, res: Response) {
     try {
       const { us_correo, password } = dto;

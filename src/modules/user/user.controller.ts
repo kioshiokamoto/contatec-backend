@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Patch, Post, Req, Res } from '@nestjs/common';
-import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiForbiddenResponse,
+  ApiHeader,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
 import {
@@ -29,10 +34,16 @@ export class UserController {
   activateEmail(@Body() dto: ActivateEmailDto) {
     return this.userService.activateEmail(dto);
   }
+
   @Post('/forgot')
   forgotPassword(@Body() dto: ForgotPasswordDto) {
     return this.userService.forgotPassword(dto);
   }
+
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'Token de usuario',
+  })
   @Post('/reset')
   resetPassword(@Req() req: Request, @Body() dto: ResetPasswordDto) {
     return this.userService.resetPassword(req);
@@ -61,11 +72,19 @@ export class UserController {
     return this.userService.logout(res);
   }
   //Datos de usuario
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'Token de usuario',
+  })
   @Get('/info')
   getUserInfo(@Req() req: Request) {
     return this.userService.getUserInfo(req);
   }
 
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'Token de usuario',
+  })
   @Patch('/update')
   updateUser(@Body() dto: UpdateUserDto, @Req() req: Request) {
     return this.userService.updateUser(dto, req);
