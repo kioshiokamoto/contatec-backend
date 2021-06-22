@@ -27,24 +27,22 @@ export class MessageGateway
 
   handleConnection(client: any, ...args: any[]) {
     this.logger.log(`Client connected: ${client.id}`);
-
-    // console.log(client.id);
-    // console.log(client.handshake.query);
   }
   handleDisconnect(client: any) {
     this.logger.log(`Client disconnected: ${client.id}`);
     //console.log(client.handshake.query);
   }
 
+  //Verificar identidad - guardar identidad
   @SubscribeMessage('identity')
   handleIdentity(client: any, payload: any): void {
-    //Verificar identidad - guardar identidad
     client.userId = payload;
     console.log(client.userId);
     //Agregar cliente a sala
     client.join(client.userId);
   }
 
+  //Estructura para mensajes
   @SubscribeMessage('messageDefault')
   handleMessage(client: any, payload: any): void {
     //Envia mensaje hacia destino payload.data y hacia si mismo
@@ -53,6 +51,15 @@ export class MessageGateway
       .to(payload.from)
       .to(client.userId)
       .emit('messageDefault', { data: payload.data });
-    // this.server.to('OPhHaIRN5cBjpeONAAAA').emit('private message', { payload, from: client.id});
+  }
+  //Estructura para propuesta
+  @SubscribeMessage('messageProposal')
+  handleMessageProposal(client: any, payload: any): void {
+    //Envia mensaje hacia destino payload.data y hacia si mismo
+    console.log(payload);
+    this.server
+      .to(payload.from)
+      .to(client.userId)
+      .emit('messageDefault', { data: payload.data });
   }
 }
