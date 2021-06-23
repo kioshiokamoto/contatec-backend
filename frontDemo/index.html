@@ -1,0 +1,54 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div>
+    <ul id="messages"></ul>
+  </div>
+
+  <div>
+    <input id="message" type="text" />
+    <input id="message2" type="text" />
+
+    <button onclick="handleSubmitNewMessage()">Submit</button>
+    <button id="pagoCulqi">Pagar con Culqi</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script src="./chat-socket.js"></script>
+  <script src="https://checkout.culqi.com/js/v3"></script>
+  <script>
+    Culqi.publicKey = 'pk_test_9824531d3eed6c8a';
+    Culqi.settings({
+      title: 'Culqi Store',
+      currency: 'PEN',
+      description: 'Polo/remera Culqi lover',
+      amount: 3500
+    });
+    document.querySelector("#pagoCulqi").addEventListener('click', (e) => {
+      Culqi.open();
+      e.preventDefault();
+    })
+    culqi()
+
+    function culqi() {
+      if (Culqi.token) { // ¡Objeto Token creado exitosamente!
+        var token = Culqi.token.id;
+        alert('Se ha creado un token:' + token);
+        //En esta linea de codigo debemos enviar el "Culqi.token.id"
+      } else {
+        //Si ocurrio error
+        console.log(Culqi.error);
+        alert(Culqi.error.user_message);
+      }
+    };
+
+  </script>
+</body>
+
+</html>
