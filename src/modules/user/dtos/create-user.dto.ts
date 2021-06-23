@@ -3,7 +3,7 @@ import { IsEmail, Length } from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({
-    description: 'Dirección de coorreo electrónico',
+    description: 'Dirección de correo electrónico',
     example: 'johndoe@email.com',
     type: String,
   })
