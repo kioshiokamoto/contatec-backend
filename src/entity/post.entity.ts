@@ -23,8 +23,20 @@ export default class Post extends Entity {
   @Column()
   pst_descripcion: string;
 
-  @Column()
-  pst_imagen: string;
+  @Column( { nullable: true } )
+  pst_imagen_1: string | undefined;
+
+  @Column( { nullable: true } )
+  pst_imagen_2: string | undefined;
+
+  @Column( { nullable: true } )
+  pst_imagen_3: string | undefined;
+
+  @Column( { nullable: true } )
+  pst_imagen_4: string | undefined;
+
+  @Column( { nullable: true } )
+  pst_imagen_5: string | undefined;
 
   @Column()
   pst_precioBase: number;
