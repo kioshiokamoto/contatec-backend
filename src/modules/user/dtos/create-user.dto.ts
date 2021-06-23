@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, Length } from 'class-validator';
+import { IsEmail, IsString, Length } from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -19,6 +19,7 @@ export class CreateUserDto {
     type: String,
   })
   @Length(3, 255, { message: 'nombre debe tener al menos 3 caracteres' })
+  @IsString()
   us_nombre: string;
 
   @ApiProperty({
@@ -27,6 +28,7 @@ export class CreateUserDto {
     type: String,
   })
   @Length(3, 255, { message: 'Apellido debe tener al menos 3 caracteres' })
+  @IsString()
   us_apellido: string;
 
   @ApiProperty({
@@ -36,5 +38,6 @@ export class CreateUserDto {
     type: String,
   })
   @Length(6, 255, { message: 'Contraseña debe tener al menos 6 caracteres' })
+  @IsString()
   password: string;
 }

@@ -25,4 +25,7 @@ export default class Pago extends Entity {
 
   @Column()
   pgo_telefono: string;
+
+  @Column()
+  pgo_token: string;
 }

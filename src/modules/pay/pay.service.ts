@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as Culqi from 'culqi-node';
 import Pago from 'src/entity/pago.entity';
 import { Repository } from 'typeorm';
+import { PayServiceNow } from './dtos/pay-service-now.dto';
 //Token de prueba
 //tkn_test_vKMujxXlSPGTVpRv
 @Injectable()
@@ -16,15 +17,28 @@ export class PayService {
     });
   }
 
-  async payServiceNow(payServiceNowDto: any) {
+  async payServiceNow(payServiceNowDto: PayServiceNow) {
     try {
       const charge = await this.culqi.charges.createCharge({
-        amount: '10000',
+        amount: payServiceNowDto.pgo_monto,
         currency_code: 'PEN',
-        email: 'kjor29@gmail.com',
+        email: payServiceNowDto.pgo_correo,
         //token recibido por frontend
-        source_id: 'tkn_test_IyZHImT5inMdK2JJ',
+        source_id: payServiceNowDto.pgo_token_culqi,
+        //source_id: 'tkn_test_IyZHImT5inMdK2JJ',
       });
+      console.log(charge.id);
+
+      const newPago = this.pagoRepository.create({
+        pgo_dni: payServiceNowDto.pgo_dni,
+        pgo_apellido: payServiceNowDto.pgo_apellido,
+        pgo_nombre: payServiceNowDto.pgo_nombre,
+        pgo_direccion: payServiceNowDto.pgo_direccion,
+        pgo_telefono: payServiceNowDto.pgo_telefono,
+        pgo_monto: payServiceNowDto.pgo_monto,
+        pgo_token: charge.id,
+      });
+      await newPago.save();
 
       return {
         message: 'El pago se realizo correctamente',
