@@ -36,7 +36,10 @@ export class UserService {
       const { us_correo, us_nombre, us_apellido, password } = dto;
       const user = await this.usuariosRepository.findOne({ us_correo });
       if (user) {
-        throw new HttpException('Usuario ya existe', HttpStatus.CONFLICT);
+        throw new HttpException(
+          { status: HttpStatus.BAD_REQUEST, error: 'Usuario ya existe' },
+          HttpStatus.BAD_REQUEST,
+        );
       }
       const activation_token = createActivationToken(dto);
 
