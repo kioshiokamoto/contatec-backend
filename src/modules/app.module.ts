@@ -7,6 +7,7 @@ import { WorkModule } from './work/work.module';
 import { PostModule } from './post/post.module';
 import { PayModule } from './pay/pay.module';
 import { MessageModule } from './message/message.module';
+import { CategoryModule } from './category/category.module';
 @Module({
   imports: [
     //habilitar variables de entorno
@@ -34,6 +35,7 @@ import { MessageModule } from './message/message.module';
     PostModule,
     PayModule,
     MessageModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

@@ -1,49 +1,49 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CategoryService } from './category.service';
+import { CategoriaActualizarDTO } from './dto/categoria-actualizar.dto';
 import { CategoriaDTO } from './dto/categoria.dto';
 
-
-
-
-@ApiTags('Category')
+@ApiTags('Categoría')
 @Controller('category')
 export class CategoryController {
+  constructor(private readonly categoryService: CategoryService) {}
 
+  @Post('/create')
+  createCategory(@Body() categoryDto: CategoriaDTO) {
+    return this.categoryService.createCategory(categoryDto);
+  }
 
-    constructor( private readonly categoryService: CategoryService ) {}
+  @Get('/categories')
+  getAllCategories() {
+    return this.categoryService.getAllCategories();
+  }
 
-    @Post('/create')
-    createCategory( @Body() categoryDto: CategoriaDTO ) {
-        return this.categoryService.createCategory( categoryDto );
-    }
+  @Get('/:id')
+  getCategory(@Param('id') id: number) {
+    return this.categoryService.getCategory(id);
+  }
 
-    @Get('categories')
-    getAllCategories() {
-        return this.categoryService.getAllCategories();
-    }
+  @Patch('/:id')
+  updateCategory(
+    @Param('id') id: number,
+    @Body() categoryDto: CategoriaActualizarDTO,
+  ) {
+    return this.categoryService.updateCategory(id, categoryDto);
+  }
 
-    @Get(':id')
-    getCategory( @Param('id') id: number ) {
-        return this.categoryService.getCategory( id );
-    }
-
-    @Put(':id')
-    updateCategory( @Param('id') id: number, @Body() categoryDto: CategoriaDTO ) {
-        return this.categoryService.updateCategory( id, categoryDto );
-    }
-
-    @Delete(':id')
-    deleteCategory( @Param('id') id: number ) {
-        return this.categoryService.deleteCategory( id );
-    }
-
-
+  @Delete('/:id')
+  deleteCategory(@Param('id') id: number) {
+    return this.categoryService.deleteCategory(id);
+  }
 }
-
-
-
-
-
-
