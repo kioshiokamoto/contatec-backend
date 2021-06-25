@@ -4,12 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CrearPostDTO } from './dtos/create-post.dto';
+import { UpdatePostDTO } from './dtos/update-post.dto';
 import { PostService } from './post.service';
 
 @ApiTags('Post')
@@ -32,19 +34,9 @@ export class PostController {
     return this.postService.getPost(id);
   }
 
-  @Put(':id')
-  updatePost(@Param('id') id: number, @Body() postDto: CrearPostDTO) {
+  @Patch(':id')
+  updatePost(@Param('id') id: number, @Body() postDto: UpdatePostDTO) {
     return this.postService.updatePost(id, postDto);
-  }
-
-  @Put('/disable/:id')
-  disablePost(@Param('id') id: number) {
-    return this.postService.changeStatus(id, false);
-  }
-
-  @Put('/enable/:id')
-  enablePost(@Param('id') id: number) {
-    return this.postService.changeStatus(id, true);
   }
 
   @Delete(':id')

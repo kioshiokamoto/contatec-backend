@@ -1,15 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CrearPostDTO {
-  @ApiProperty({
-    description: 'ID de usuario',
-    example: 1,
-    type: Number,
-  })
-  @IsNumber()
-  pst_idUsuario: number;
-
+export class UpdatePostDTO {
   @ApiProperty({
     description: 'Estado de post',
     example: true,
@@ -84,6 +76,7 @@ export class CrearPostDTO {
     example: 180,
     type: Number,
   })
+  @IsOptional()
   @IsNumber()
   pst_precioBase: number;
 }
