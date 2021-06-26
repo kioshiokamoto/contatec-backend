@@ -10,7 +10,7 @@ import * as rateLimit from 'express-rate-limit';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './modules/app.module';
 import { ValidationPipe } from '@nestjs/common';
-
+import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -42,6 +42,7 @@ async function bootstrap() {
 
   //Middlewares
   app
+    .use(cors())
     .use(helmet())
     .use(bodyParser.json())
     .use(
@@ -58,7 +59,7 @@ async function bootstrap() {
     );
 
   //Cors
-  app.enableCors();
+  // app.enableCors();
 
   await app.listen(process.env.PORT || 3000);
 }

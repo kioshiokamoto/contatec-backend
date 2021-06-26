@@ -41,7 +41,7 @@ export default class Usuario extends Entity {
   @Length(6, 255, { message: 'Debe tener al menos 6 caracteres' })
   password: string;
 
-  @Column()
+  @Column({ default: '' })
   avatar: string;
 
   @OneToMany(() => Review, (review) => review.id)
