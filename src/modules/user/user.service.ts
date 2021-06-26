@@ -98,7 +98,6 @@ export class UserService {
         httpOnly: false,
         path: '/api/user/refresh_token',
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        secure: false,
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
