@@ -94,10 +94,16 @@ export class UserService {
       }
       const refresh_token = createRefreshToken({ id: user.id });
       console.log('refresh_token', refresh_token);
+      // res.header('Access-Control-Allow-Origin', '*');
+      // res.header(
+      //   'Access-Control-Allow-Headers',
+      //   'Origin, X-Requested-With, Content-Type, Accept',
+      // );
       res.cookie('refreshtoken', refresh_token, {
         httpOnly: false,
         path: '/api/user/refresh_token',
         maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: true,
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
