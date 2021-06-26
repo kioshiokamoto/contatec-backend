@@ -42,15 +42,14 @@ async function bootstrap() {
 
   //Middlewares
   app
-    .use(cors({ origin: true, credentials: true }))
     .use(helmet())
+    .use(cookieParser())
     .use(bodyParser.json())
     .use(
       bodyParser.urlencoded({
         extended: true,
       }),
     )
-    .use(cookieParser())
     .use(
       rateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutos
@@ -59,7 +58,14 @@ async function bootstrap() {
     );
 
   //Cors
-  // app.enableCors();
+  // app.enableCors({
+  //   origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  //   credentials: true,
+  // });
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
 
   await app.listen(process.env.PORT || 3000);
 }

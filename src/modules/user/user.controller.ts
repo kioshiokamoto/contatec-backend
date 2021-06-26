@@ -50,7 +50,7 @@ export class UserController {
   }
 
   @Post('/login')
-  login(@Body() dto: LoginDto, @Res() res: Response) {
+  login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     return this.userService.login(dto, res);
   }
 

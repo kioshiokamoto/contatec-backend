@@ -94,16 +94,14 @@ export class UserService {
       }
       const refresh_token = createRefreshToken({ id: user.id });
       console.log('refresh_token', refresh_token);
-      // res.header('Access-Control-Allow-Origin', '*');
-      // res.header(
-      //   'Access-Control-Allow-Headers',
-      //   'Origin, X-Requested-With, Content-Type, Accept',
-      // );
+      // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+      // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+      // res.set  Header('Access-Control-Allow-Credentials', 'true');
       res.cookie('refreshtoken', refresh_token, {
-        httpOnly: false,
-        path: '/api/user/refresh_token',
+        // httpOnly: false,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        secure: true,
+        // secure: true,
+        // path: '/api/user/refresh_token',
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
@@ -113,6 +111,7 @@ export class UserService {
   async getAccessToken(req: Request) {
     try {
       const rf_token = req.cookies.refreshtoken;
+      console.log(req.cookies);
       console.log('rf_token', rf_token);
       if (!rf_token) {
         throw new HttpException(
