@@ -42,7 +42,7 @@ async function bootstrap() {
 
   //Middlewares
   app
-    .use(cors())
+    .use(cors({ origin: true, credentials: true }))
     .use(helmet())
     .use(bodyParser.json())
     .use(
