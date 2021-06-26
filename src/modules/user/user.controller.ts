@@ -54,7 +54,7 @@ export class UserController {
     return this.userService.login(dto, res);
   }
 
-  @Get('/refresh_token')
+  @Post('/refresh_token')
   getAccessToken(@Req() req: Request) {
     return this.userService.getAccessToken(req);
   }
