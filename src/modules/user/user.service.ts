@@ -93,8 +93,9 @@ export class UserService {
         throw new HttpException('Contraseña errada', HttpStatus.FORBIDDEN);
       }
       const refresh_token = createRefreshToken({ id: user.id });
+      console.log('refresh_token', refresh_token);
       res.cookie('refreshtoken', refresh_token, {
-        httpOnly: true,
+        httpOnly: false,
         path: '/api/user/refresh_token',
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
@@ -106,6 +107,7 @@ export class UserService {
   async getAccessToken(req: Request) {
     try {
       const rf_token = req.cookies.refreshtoken;
+      console.log('rf_token', rf_token);
       if (!rf_token) {
         throw new HttpException(
           'Porfavor, inicia sesión ahora',
