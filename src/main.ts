@@ -56,16 +56,6 @@ async function bootstrap() {
         max: 100, //  limitar cada hasta 100 solicitudes por ventana
       }),
     );
-
-  //Cors
-  // app.enableCors({
-  //   origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
-  //   credentials: true,
-  // });
-  // app.enableCors({
-  //   origin: 'http://127.0.0.1:3000',
-  //   credentials: true,
-  // });
   const corsOptions = {
     allowedHeaders: [
       'Origin',

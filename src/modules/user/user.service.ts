@@ -94,12 +94,7 @@ export class UserService {
       }
       const refresh_token = createRefreshToken({ id: user.id });
       console.log('refresh_token', refresh_token);
-      // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
-      // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      // res.setHeader('Access-Control-Allow-Origin', 'http://www.contatec.com');
-
       res.setHeader('Access-Control-Allow-Credentials', 'true');
-      // res.setHeader('Access-Control-Allow-Origin', 'http://www.contatec.com');
       res.setHeader(
         'Access-Control-Allow-Headers',
         'Cookie,Set-Cookie,Accept,Content-Type',
