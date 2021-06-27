@@ -96,12 +96,20 @@ export class UserService {
       console.log('refresh_token', refresh_token);
       // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
       // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      // res.set  Header('Access-Control-Allow-Credentials', 'true');
+      // res.setHeader('Access-Control-Allow-Origin', 'http://www.contatec.com');
+
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      // res.setHeader('Access-Control-Allow-Origin', 'http://www.contatec.com');
+      res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Cookie,Set-Cookie,Accept,Content-Type',
+      );
       res.cookie('refreshtoken', refresh_token, {
-        // httpOnly: false,
+        httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        // secure: true,
-        // path: '/api/user/refresh_token',
+        path: '/api/user/refresh_token',
+        sameSite: 'none',
+        secure: true,
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {

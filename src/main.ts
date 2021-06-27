@@ -62,10 +62,30 @@ async function bootstrap() {
   //   origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
   //   credentials: true,
   // });
-  app.enableCors({
-    origin: true,
+  // app.enableCors({
+  //   origin: 'http://127.0.0.1:3000',
+  //   credentials: true,
+  // });
+  const corsOptions = {
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'X-Access-Token',
+      'Authorization',
+    ],
     credentials: true,
-  });
+    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+    origin: [
+      'http://www.contatec.com',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:3000',
+      'https://contactec-front.vercel.app',
+    ],
+    preflightContinue: false,
+  };
+  app.enableCors(corsOptions);
 
   await app.listen(process.env.PORT || 3000);
 }
