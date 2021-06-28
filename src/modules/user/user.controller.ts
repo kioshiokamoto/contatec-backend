@@ -71,6 +71,7 @@ export class UserController {
   logout(@Res() res: Response) {
     return this.userService.logout(res);
   }
+
   //Datos de usuario
   @ApiHeader({
     name: 'Authorization',

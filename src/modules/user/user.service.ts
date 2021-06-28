@@ -208,8 +208,10 @@ export class UserService {
         const refresh_token = createRefreshToken({ id: user.id });
         res.cookie('refreshtoken', refresh_token, {
           httpOnly: true,
-          path: '/api/user/refresh_token',
           maxAge: 7 * 24 * 60 * 60 * 1000,
+          path: '/api/user/refresh_token',
+          sameSite: 'none',
+          secure: true,
         });
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       } else {
@@ -225,8 +227,10 @@ export class UserService {
         const refresh_token = createRefreshToken({ id: newUser.id });
         res.cookie('refreshtoken', refresh_token, {
           httpOnly: true,
-          path: '/api/user/refresh_token',
           maxAge: 7 * 24 * 60 * 60 * 1000,
+          path: '/api/user/refresh_token',
+          sameSite: 'none',
+          secure: true,
         });
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       }
@@ -264,8 +268,10 @@ export class UserService {
         const refresh_token = createRefreshToken({ id: user.id });
         res.cookie('refreshtoken', refresh_token, {
           httpOnly: true,
-          path: '/api/user/refresh_token',
           maxAge: 7 * 24 * 60 * 60 * 1000,
+          path: '/api/user/refresh_token',
+          sameSite: 'none',
+          secure: true,
         });
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       } else {
@@ -281,10 +287,11 @@ export class UserService {
         const refresh_token = createRefreshToken({ id: newUser.id });
         res.cookie('refreshtoken', refresh_token, {
           httpOnly: true,
-          path: '/api/user/refresh_token',
           maxAge: 7 * 24 * 60 * 60 * 1000,
+          path: '/api/user/refresh_token',
+          sameSite: 'none',
+          secure: true,
         });
-        console.log('funcion');
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       }
     } catch (error) {
