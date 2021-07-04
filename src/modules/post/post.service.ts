@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import algoliasearch from 'algoliasearch';
 
 import Post from 'src/entity/post.entity';
 import { CrearPostDTO } from './dtos/create-post.dto';
@@ -62,9 +63,30 @@ export class PostService {
 
       console.log(savedPost_categoria);
 
+      //Agregar a algolia
       const algoliaPush = {
         description: slugify(pst_descripcion),
+        objectID: savedPost.id,
       };
+      const ALGOLIA_APPLICATION_ID = process.env.ALGOLIA_APPLICATION_ID;
+      const ALGOLIA_ADMIN_API_KEY = process.env.ALGOLIA_ADMIN_API_KEY;
+      const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
+
+      const client = algoliasearch(
+        ALGOLIA_APPLICATION_ID,
+        ALGOLIA_ADMIN_API_KEY,
+      );
+
+      const index = client.initIndex(ALGOLIA_INDEX_NAME);
+
+      index
+        .saveObject(algoliaPush)
+        .then((objectID) => {
+          console.log({ objectID });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       return {
         message: 'El post se creo correctamente',
