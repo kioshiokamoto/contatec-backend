@@ -5,12 +5,16 @@ import { Repository } from 'typeorm';
 import Post from 'src/entity/post.entity';
 import { CrearPostDTO } from './dtos/create-post.dto';
 import { UpdatePostDTO } from './dtos/update-post.dto';
+import { slugify } from 'src/utils/slugify';
+import Post_Categoria from 'src/entity/post_categoria.entity';
 
 @Injectable()
 export class PostService {
   constructor(
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
+    @InjectRepository(Post_Categoria)
+    private postCategoryRepository: Repository<Post_Categoria>,
   ) {}
 
   async createPost(newpost: CrearPostDTO) {
@@ -24,6 +28,7 @@ export class PostService {
         pst_imagen_3,
         pst_imagen_4,
         pst_imagen_5,
+        pst_categoria,
       } = newpost;
 
       const check = await this.postRepository.findOne({ pst_descripcion });
@@ -46,10 +51,24 @@ export class PostService {
         pst_imagen_5,
       });
 
-      await post.save();
+      const savedPost = await post.save();
+
+      const post_categoria = this.postCategoryRepository.create({
+        pstC_idPost: Number(savedPost.id),
+        pstC_idCategoria: Number(pst_categoria),
+      });
+
+      const savedPost_categoria = await post_categoria.save();
+
+      console.log(savedPost_categoria);
+
+      const algoliaPush = {
+        description: slugify(pst_descripcion),
+      };
 
       return {
         message: 'El post se creo correctamente',
+        data: savedPost,
       };
     } catch (error) {
       return error;

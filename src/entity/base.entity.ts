@@ -7,7 +7,6 @@ import {
 } from 'typeorm';
 
 export default abstract class Entity extends BaseEntity {
-  @Exclude()
   @PrimaryGeneratedColumn()
   id: number;
 

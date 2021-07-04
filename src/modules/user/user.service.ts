@@ -100,11 +100,11 @@ export class UserService {
         'Cookie,Set-Cookie,Accept,Content-Type',
       );
       res.cookie('refreshtoken', refresh_token, {
-        httpOnly: true,
+        // httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/api/user/refresh_token',
-        sameSite: 'none',
-        secure: true,
+        // sameSite: 'none',
+        // secure: true,
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {

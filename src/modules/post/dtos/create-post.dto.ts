@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CrearPostDTO {
   @ApiProperty({
@@ -27,7 +33,16 @@ export class CrearPostDTO {
   })
   @IsOptional()
   @IsString()
+  @Length(10, 150)
   pst_descripcion: string;
+
+  @ApiProperty({
+    description: 'Descripcion de servicio',
+    example: 1,
+    type: Number,
+  })
+  @IsNumber()
+  pst_categoria: string;
 
   @ApiProperty({
     description: 'Imagen de servicio',

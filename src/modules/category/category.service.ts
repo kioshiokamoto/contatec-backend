@@ -30,10 +30,11 @@ export class CategoryService {
         cat_nombre,
       });
 
-      await newCategory.save();
+      const savedCategory = await newCategory.save();
 
       return {
         message: 'Se creo correctamente la categoria',
+        data: savedCategory,
       };
     } catch (error) {
       return error;
