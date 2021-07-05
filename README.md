@@ -10,6 +10,8 @@
 
 **Server:** Nestjs, TypeORM, Sockets.io, Swagger
 
+- Despliegue: [Backend - Swagger](https://contatec.herokuapp.com/)
+
 ## Instalacion
 
 ```bash
