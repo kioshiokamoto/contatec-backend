@@ -1,11 +1,14 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
-import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { google } from 'googleapis';
+import * as jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
+import Usuario from 'src/entity/usuario.entity';
+import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
+import sendEmail from 'src/utils/sendMail';
+import { Repository } from 'typeorm';
 import {
   ActivateEmailDto,
   CreateUserDto,
@@ -13,11 +16,7 @@ import {
   ForgotPasswordDto,
   GoogleLoginDto,
   LoginDto,
-  ResetPasswordDto,
 } from './dtos';
-import Usuario from 'src/entity/usuario.entity';
-import sendEmail from 'src/utils/sendMail';
-import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
 
 const { OAuth2 } = google.auth;
 

@@ -1,12 +1,4 @@
-import {
-  BeforeInsert,
-  Column,
-  Entity as TOEntity,
-  Index,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-} from 'typeorm';
+import { Column, Entity as TOEntity, ManyToOne } from 'typeorm';
 import Entity from './base.entity';
 import Usuario from './usuario.entity';
 
