@@ -9,12 +9,12 @@ import { PostController } from './post.controller';
 import { PostService } from './post.service';
 import Post from 'src/entity/post.entity';
 import { AuthMiddleware } from 'src/middlewares/auth.middleware';
-import Post_Categoria from 'src/entity/post_categoria.entity';
+import Categoria from 'src/entity/categoria.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Post]),
-    TypeOrmModule.forFeature([Post_Categoria]),
+    TypeOrmModule.forFeature([Categoria]),
   ],
   controllers: [PostController],
   providers: [PostService],

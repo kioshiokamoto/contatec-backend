@@ -7,22 +7,21 @@ import Post from 'src/entity/post.entity';
 import { CrearPostDTO } from './dtos/create-post.dto';
 import { UpdatePostDTO } from './dtos/update-post.dto';
 import { slugify } from 'src/utils/slugify';
-import Post_Categoria from 'src/entity/post_categoria.entity';
+import Categoria from 'src/entity/categoria.entity';
 
 @Injectable()
 export class PostService {
   constructor(
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
-    @InjectRepository(Post_Categoria)
-    private postCategoryRepository: Repository<Post_Categoria>,
+    @InjectRepository(Categoria)
+    private categoryRepository: Repository<Categoria>,
   ) {}
 
-  async createPost(newpost: CrearPostDTO) {
+  async createPost(newpost: CrearPostDTO, req: any) {
     try {
       const {
         pst_descripcion,
-        pst_idUsuario,
         pst_precioBase,
         pst_imagen_1,
         pst_imagen_2,
@@ -31,42 +30,42 @@ export class PostService {
         pst_imagen_5,
         pst_categoria,
       } = newpost;
+      // console.log(req.user .id);
+      // console.log(req.user);
+      const pst_idUsuario = req.user.id;
 
-      const check = await this.postRepository.findOne({ pst_descripcion });
-      if (check) {
-        throw new HttpException(
-          { status: HttpStatus.BAD_REQUEST, error: 'Post ya existe' },
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+      // const check = await this.postRepository.findOne({ pst_descripcion });
+      // if (check) {
+      //   throw new HttpException(
+      //     { status: HttpStatus.BAD_REQUEST, error: 'Post ya existe' },
+      //     HttpStatus.BAD_REQUEST,
+      //   );
+      // }
 
       const post = this.postRepository.create({
-        pst_isActive: true, // La activacion va a estar por defecto
         pst_descripcion,
-        pst_idUsuario,
         pst_precioBase,
         pst_imagen_1,
         pst_imagen_2,
         pst_imagen_3,
         pst_imagen_4,
         pst_imagen_5,
+        pstUsuarioId: pst_idUsuario,
+        pstCategoriaId: pst_categoria as unknown as Categoria,
       });
 
       const savedPost = await post.save();
 
-      const post_categoria = this.postCategoryRepository.create({
-        pstC_idPost: Number(savedPost.id),
-        pstC_idCategoria: Number(pst_categoria),
-      });
-
-      const savedPost_categoria = await post_categoria.save();
-
-      console.log(savedPost_categoria);
+      const { cat_nombre: categoriaAlgolia } =
+        await this.categoryRepository.findOne({
+          id: Number(pst_categoria),
+        });
 
       //Agregar a algolia
       const algoliaPush = {
         description: slugify(pst_descripcion),
         objectID: savedPost.id,
+        category: categoriaAlgolia,
       };
       const ALGOLIA_APPLICATION_ID = process.env.ALGOLIA_APPLICATION_ID;
       const ALGOLIA_ADMIN_API_KEY = process.env.ALGOLIA_ADMIN_API_KEY;
@@ -90,7 +89,10 @@ export class PostService {
 
       return {
         message: 'El post se creo correctamente',
-        data: savedPost,
+        data: {
+          ...savedPost,
+          pst_category: categoriaAlgolia,
+        },
       };
     } catch (error) {
       return error;
@@ -121,7 +123,7 @@ export class PostService {
     }
   }
 
-  async updatePost(id: number, newpost: UpdatePostDTO) {
+  async updatePost(id: number, newpost: UpdatePostDTO, req) {
     try {
       const {
         pst_isActive,
@@ -132,13 +134,26 @@ export class PostService {
         pst_imagen_4,
         pst_imagen_5,
         pst_precioBase,
+        pst_categoria,
       } = newpost;
 
-      const post = await this.postRepository.findOne(id);
+      const post = await this.postRepository.findOne(id, {
+        relations: ['pstUsuarioId', 'pstCategoriaId'],
+      });
 
       if (!post) {
         throw new HttpException(
           { status: HttpStatus.BAD_REQUEST, error: 'Usuario ya existe' },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      // console.log(id);
+      if (post.pstUsuarioId.id !== req.user.id) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: 'Post no pertenece a usuario',
+          },
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -167,8 +182,12 @@ export class PostService {
       if (pst_isActive) {
         post.pst_isActive = pst_isActive;
       }
+      if (pst_categoria) {
+        post.pstCategoriaId = pst_categoria as unknown as Categoria;
+      }
 
-      await post.save();
+      const postSaved = await post.save();
+      console.log(postSaved);
 
       return {
         message: 'El post se actualizo correctamente',

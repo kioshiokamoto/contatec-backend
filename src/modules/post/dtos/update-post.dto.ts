@@ -79,4 +79,13 @@ export class UpdatePostDTO {
   @IsOptional()
   @IsNumber()
   pst_precioBase: number;
+
+  @ApiProperty({
+    description: 'Descripcion de servicio',
+    example: 1,
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  pst_categoria: number;
 }

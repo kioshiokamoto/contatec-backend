@@ -10,6 +10,7 @@ import {
 import Entity from './base.entity';
 import Review from './review.entity';
 import * as bcrypt from 'bcrypt';
+import Post from './post.entity';
 
 @TOEntity('usuario')
 export default class Usuario extends Entity {
@@ -47,8 +48,8 @@ export default class Usuario extends Entity {
   @OneToMany(() => Review, (review) => review.id)
   reviews: Review[];
 
-  // @OneToMany(() => Post, (post) => post.user)
-  // posts: Post[];
+  @OneToMany(() => Post, (post) => post.pstUsuarioId)
+  posts: Post[];
 
   // @OneToMany(() => Vote, (vote) => vote.user)
   // votes: Vote[];

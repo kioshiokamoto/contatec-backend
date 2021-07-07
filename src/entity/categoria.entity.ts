@@ -1,5 +1,6 @@
-import { Column, Entity as TOEntity } from 'typeorm';
+import { Column, Entity as TOEntity, OneToMany } from 'typeorm';
 import Entity from './base.entity';
+import Post from './post.entity';
 
 @TOEntity('categoria')
 export default class Categoria extends Entity {
@@ -13,4 +14,7 @@ export default class Categoria extends Entity {
 
   @Column()
   cat_descripcion: string;
+
+  @OneToMany(() => Post, (post) => post.pstCategoriaId)
+  posts: Post[];
 }

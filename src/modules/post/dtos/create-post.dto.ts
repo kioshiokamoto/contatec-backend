@@ -9,14 +9,6 @@ import {
 
 export class CrearPostDTO {
   @ApiProperty({
-    description: 'ID de usuario',
-    example: 1,
-    type: Number,
-  })
-  @IsNumber()
-  pst_idUsuario: number;
-
-  @ApiProperty({
     description: 'Estado de post',
     example: true,
     default: true,
@@ -42,7 +34,7 @@ export class CrearPostDTO {
     type: Number,
   })
   @IsNumber()
-  pst_categoria: string;
+  pst_categoria: number;
 
   @ApiProperty({
     description: 'Imagen de servicio',

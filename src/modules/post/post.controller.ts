@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Put,
+  Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -20,8 +21,8 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post('/create')
-  createPost(@Body() createPost: CrearPostDTO) {
-    return this.postService.createPost(createPost);
+  createPost(@Body() createPost: CrearPostDTO, @Req() req) {
+    return this.postService.createPost(createPost, req);
   }
 
   @Get('/all-posts')
@@ -34,12 +35,16 @@ export class PostController {
     return this.postService.getPost(id);
   }
 
-  @Patch(':id')
-  updatePost(@Param('id') id: number, @Body() postDto: UpdatePostDTO) {
-    return this.postService.updatePost(id, postDto);
+  @Patch('/update/:id')
+  updatePost(
+    @Param('id') id: number,
+    @Body() postDto: UpdatePostDTO,
+    @Req() req,
+  ) {
+    return this.postService.updatePost(id, postDto, req);
   }
 
-  @Delete(':id')
+  @Delete('/delete/:id')
   deletePost(@Param('id') id: number) {
     return this.postService.deletePost(id);
   }
