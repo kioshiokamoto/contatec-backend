@@ -6,11 +6,9 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-
 import { CrearPostDTO } from './dtos/create-post.dto';
 import { UpdatePostDTO } from './dtos/update-post.dto';
 import { PostService } from './post.service';

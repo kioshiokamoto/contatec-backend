@@ -6,8 +6,9 @@ import {
   IsString,
   Length,
 } from 'class-validator';
+import { BaseDto } from './base.dto';
 
-export class CrearPostDTO {
+export class CrearPostDTO extends BaseDto {
   @ApiProperty({
     description: 'Estado de post',
     example: true,
@@ -23,7 +24,6 @@ export class CrearPostDTO {
     example: 'Arreglo computadoras',
     type: String,
   })
-  @IsOptional()
   @IsString()
   @Length(10, 150)
   pst_descripcion: string;
@@ -35,56 +35,6 @@ export class CrearPostDTO {
   })
   @IsNumber()
   pst_categoria: number;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_1: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_2: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_3: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_4: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_5: string;
 
   @ApiProperty({
     description: 'Costo de servicio',

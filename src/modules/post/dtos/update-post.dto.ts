@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { BaseDto } from './base.dto';
 
-export class UpdatePostDTO {
+export class UpdatePostDTO extends BaseDto {
   @ApiProperty({
     description: 'Estado de post',
     example: true,
@@ -20,56 +21,6 @@ export class UpdatePostDTO {
   @IsOptional()
   @IsString()
   pst_descripcion: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_1: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_2: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_3: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_4: string;
-
-  @ApiProperty({
-    description: 'Imagen de servicio',
-    example:
-      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  pst_imagen_5: string;
 
   @ApiProperty({
     description: 'Costo de servicio',

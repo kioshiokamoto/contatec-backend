@@ -32,7 +32,7 @@ export class UserService {
 
   async register(dto: CreateUserDto) {
     try {
-      const { us_correo, us_nombre, us_apellido, password } = dto;
+      const { us_correo } = dto;
       const user = await this.usuariosRepository.findOne({ us_correo });
       if (user) {
         throw new HttpException(
@@ -99,10 +99,10 @@ export class UserService {
         'Cookie,Set-Cookie,Accept,Content-Type',
       );
       res.cookie('refreshtoken', refresh_token, {
-        // httpOnly: true,
+        httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/api/user/refresh_token',
-        // sameSite: 'none',
+        sameSite: 'none',
         // secure: true,
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
@@ -351,12 +351,12 @@ export class UserService {
 
 function createActivationToken(payload) {
   return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
-    expiresIn: '5m',
+    expiresIn: '15m',
   });
 }
 function createAccessToken(payload) {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: '15m',
+    expiresIn: '30m',
   });
 }
 function createRefreshToken(payload) {
