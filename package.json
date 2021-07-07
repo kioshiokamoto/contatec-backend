@@ -51,7 +51,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "^0.2.34"
+    "typeorm": "^0.2.34",
+    "algoliasearch": "^4.10.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
@@ -69,7 +70,6 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "algoliasearch": "^4.10.2",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",

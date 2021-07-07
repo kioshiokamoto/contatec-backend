@@ -68,10 +68,9 @@ async function bootstrap() {
     credentials: true,
     methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
     origin: [
-      'http://www.contatec.com',
+      'https://contactec-front.vercel.app',
       'http://127.0.0.1:3000',
       'http://localhost:3000',
-      'https://contactec-front.vercel.app',
     ],
     preflightContinue: false,
   };

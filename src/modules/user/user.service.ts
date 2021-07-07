@@ -299,12 +299,23 @@ export class UserService {
   }
   async logout(res: Response) {
     try {
-      res.clearCookie('refreshtoken', { path: '/api/user/refresh_token' });
-      return {
-        message: 'Contraseña a sido cambiada',
-      };
+      // console.log(res.cookie);
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Cookie,Set-Cookie,Accept,Content-Type',
+      );
+      res.cookie('refreshtoken', '', {
+        httpOnly: true,
+        maxAge: 10,
+        path: '/api/user/refresh_token',
+        sameSite: 'none',
+        secure: true,
+      });
+      console.log('Eliminando Cookie');
+      res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
-      return error;
+      res.status(error.status).json(error);
     }
   }
   async getUserInfo(req: any) {
