@@ -101,7 +101,9 @@ export class PostService {
 
   async getAllPost() {
     try {
-      return await this.postRepository.find();
+      return await this.postRepository.find({
+        relations: ['pstUsuarioId', 'pstCategoriaId'],
+      });
     } catch (error) {
       return error;
     }
@@ -109,7 +111,9 @@ export class PostService {
 
   async getPost(id: number) {
     try {
-      const post = await this.postRepository.findOne(id);
+      const post = await this.postRepository.findOne(id, {
+        relations: ['pstUsuarioId', 'pstCategoriaId'],
+      });
 
       if (!post) {
         throw new HttpException(
