@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import algoliasearch from 'algoliasearch';
 
-import Post from 'src/entity/post.entity';
+import Post from '../../entity/post.entity';
 import { CrearPostDTO } from './dtos/create-post.dto';
 import { UpdatePostDTO } from './dtos/update-post.dto';
-import { slugify } from 'src/utils/slugify';
-import Categoria from 'src/entity/categoria.entity';
+import { slugify } from '../../utils/slugify';
+import Categoria from '../../entity/categoria.entity';
 
 @Injectable()
 export class PostService {

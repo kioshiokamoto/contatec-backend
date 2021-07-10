@@ -314,7 +314,9 @@ export class UserService {
         secure: true,
       });
       console.log('Eliminando Cookie');
-      res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
+      res
+        .status(HttpStatus.OK)
+        .json({ message: 'Se cerro sesion exitosamente' });
     } catch (error) {
       res.status(error.status).json(error);
     }

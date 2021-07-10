@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import Categoria from 'src/entity/categoria.entity';
+import Categoria from '../../entity/categoria.entity';
 import { CategoriaDTO } from './dto/categoria.dto';
 import { CategoriaActualizarDTO } from './dto/categoria-actualizar.dto';
 

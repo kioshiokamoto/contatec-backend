@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as Culqi from 'culqi-node';
-import Pago from 'src/entity/pago.entity';
+import Pago from '../../entity/pago.entity';
 import { Repository } from 'typeorm';
 import { PayServiceNow } from './dtos/pay-service-now.dto';
 //Token de prueba
