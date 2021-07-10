@@ -5,10 +5,11 @@ import { Request, Response } from 'express';
 import { google } from 'googleapis';
 import * as jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
-import Usuario from 'src/entity/usuario.entity';
 import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
-import sendEmail from 'src/utils/sendMail';
 import { Repository } from 'typeorm';
+import Usuario from '../../entity/usuario.entity';
+import sendEmail from '../../utils/sendMail';
+
 import {
   ActivateEmailDto,
   CreateUserDto,
@@ -103,7 +104,7 @@ export class UserService {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/api/user/refresh_token',
         sameSite: 'none',
-        secure: true,
+        // secure: true,
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
@@ -320,7 +321,10 @@ export class UserService {
   }
   async getUserInfo(req: any) {
     try {
-      const user = await this.usuariosRepository.findOne({ id: req.user.id });
+      const user = await this.usuariosRepository.findOne(
+        { id: req.user.id },
+        { relations: ['posts'] },
+      );
       return user;
     } catch (error) {
       return error;

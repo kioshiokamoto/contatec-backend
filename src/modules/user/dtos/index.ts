@@ -5,3 +5,4 @@ export * from './google-login.dto';
 export * from './facebook-login.dto';
 export * from './forgot-password.dto';
 export * from './reset-password.dto';
+export * from './update-user.dto';

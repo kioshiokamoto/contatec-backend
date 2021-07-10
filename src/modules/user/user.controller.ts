@@ -1,12 +1,6 @@
 import { Body, Controller, Get, Patch, Post, Req, Res } from '@nestjs/common';
-import {
-  ApiForbiddenResponse,
-  ApiHeader,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
-import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
 import {
   ActivateEmailDto,
   CreateUserDto,
@@ -15,6 +9,7 @@ import {
   GoogleLoginDto,
   LoginDto,
   ResetPasswordDto,
+  UpdateUserDto,
 } from './dtos/';
 import { UserService } from './user.service';
 
