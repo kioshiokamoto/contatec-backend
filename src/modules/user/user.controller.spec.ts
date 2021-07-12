@@ -131,4 +131,30 @@ describe('User Controller', () => {
     );
     expect(mockUserService.updateUser).toHaveBeenCalled();
   });
+  it('Usuario debe poder iniciar sesion con google', () => {
+    const res = mocks.createResponse();
+    const googleDto = {
+      tokenId:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI1ODcwNzkwLCJleHAiOjE2MjU4NzI1OTB9.0j4lhCv4H3bFvWGgvGYPloxWM_Wfe5CG0kEl3y2P0YQ',
+    };
+    expect(userController.googleLogin(googleDto, res)).toEqual(
+      'Inicio de sesión exitoso',
+    );
+    expect(mockUserService.googleLogin).toHaveBeenCalledWith(googleDto, res);
+  });
+  it('Usuario debe poder iniciar sesion con facebook', () => {
+    const res = mocks.createResponse();
+    const facebookDto = {
+      accessToken:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI1ODcwNzkwLCJleHAiOjE2MjU4NzI1OTB9.0j4lhCv4H3bFvWGgvGYPloxWM_Wfe5CG0kEl3y2P0YQ',
+      userID: '18432164131',
+    };
+    expect(userController.facebookLogin(facebookDto, res)).toEqual(
+      'Inicio de sesión exitoso',
+    );
+    expect(mockUserService.facebookLogin).toHaveBeenCalledWith(
+      facebookDto,
+      res,
+    );
+  });
 });
