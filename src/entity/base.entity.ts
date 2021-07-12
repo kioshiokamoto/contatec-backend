@@ -1,4 +1,5 @@
-import { classToPlain, Exclude } from 'class-transformer';
+/* istanbul ignore file */
+import { classToPlain } from 'class-transformer';
 import {
   BaseEntity,
   CreateDateColumn,

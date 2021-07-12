@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Column, Entity as TOEntity } from 'typeorm';
 import Entity from './base.entity';
 

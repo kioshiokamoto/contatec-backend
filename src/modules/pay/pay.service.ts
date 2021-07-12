@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as Culqi from 'culqi-node';
