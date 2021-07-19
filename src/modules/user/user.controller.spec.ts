@@ -99,35 +99,35 @@ describe('User Controller', () => {
     );
     expect(mockUserService.forgotPassword).toHaveBeenCalledWith(forgotPassDto);
   });
-  it("Usuario debe poder cerrar sesion", () => {
+  it('Usuario debe poder cerrar sesion', () => {
     const res = mocks.createResponse();
-    expect(userController.logout(res)).toEqual("Se cerro sesion exitosamente");
+    expect(userController.logout(res)).toEqual('Se cerro sesion exitosamente');
     expect(mockUserService.logout).toHaveBeenCalledWith(res);
   });
-  it("Usuario debe poder solicitar informacion de el", () => {
+  it('Usuario debe poder solicitar informacion de el', () => {
     const req = mocks.createRequest();
     expect(userController.getUserInfo(req)).toEqual({
       id: 1,
-      createdAt: "2021-07-07T03:50:13.293Z",
-      updatedAt: "2021-07-07T03:50:13.293Z",
-      us_correo: "ikjor29@gmail.com",
-      us_nombre: "Doe",
-      us_apellido: "Doe",
-      avatar: "",
+      createdAt: '2021-07-07T03:50:13.293Z',
+      updatedAt: '2021-07-07T03:50:13.293Z',
+      us_correo: 'ikjor29@gmail.com',
+      us_nombre: 'Doe',
+      us_apellido: 'Doe',
+      avatar: '',
       posts: [],
     });
     expect(mockUserService.getUserInfo).toHaveBeenCalled();
   });
-  it("Usuario debe poder actualizar su informacion", () => {
+  it('Usuario debe poder actualizar su informacion', () => {
     const req = mocks.createRequest();
-  
+
     const updateUserDto = {
-      us_nombre: "Doe",
-      us_apellido: "Doe",
-      avatar: "",
+      us_nombre: 'Doe',
+      us_apellido: 'Doe',
+      avatar: '',
     };
     expect(userController.updateUser(updateUserDto, req)).toEqual(
-      "Usuario a sido actualizado"
+      'Usuario a sido actualizado',
     );
     expect(mockUserService.updateUser).toHaveBeenCalled();
   });
