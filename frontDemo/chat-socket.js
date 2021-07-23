@@ -5,10 +5,16 @@ const message2 = document.getElementById('message2');
 const messages = document.getElementById('messages');
 const handleSubmitNewMessage = () => {
   console.log(socket.id);
-  socket.emit('messageDefault', { from: message.value, data: message2.value });
+  socket.emit('messageDefault', {
+    to: message.value,
+    data: message2.value,
+    from: 1,
+    post: 39,
+  });
 };
 socket.on('connect', () => {
-  socket.emit('identity', 55);
+  //Id de usuario
+  socket.emit('identity', 1);
 });
 socket.on('messageDefault', ({ data }) => {
   handleNewMessage(data);

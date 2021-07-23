@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 import { Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -9,13 +10,19 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
+import Mensaje, { Estado } from 'src/entity/mensaje.entity';
+import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
 
 @WebSocketGateway()
 export class MessageGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
 {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    @InjectRepository(Mensaje)
+    private mensajeRepository: Repository<Mensaje>,
+  ) {}
 
   @WebSocketServer()
   private server: Server;
@@ -45,13 +52,34 @@ export class MessageGateway
 
   //Estructura para mensajes
   @SubscribeMessage('messageDefault')
-  handleMessage(client: any, payload: any): void {
+  async handleMessage(client: any, payload: any): Promise<void> {
     //Envia mensaje hacia destino payload.data y hacia si mismo
     console.log(payload);
-    this.server
-      .to(payload.from)
-      .to(client.userId)
-      .emit('messageDefault', { data: payload.data });
+    try {
+      const newMessage = this.mensajeRepository.create({
+        msj_contenido: payload.data,
+        msj_rol: 'Mensaje' as Estado,
+        msj_user_from: payload.from,
+        msj_user_to: payload.to,
+        // msj_idPost_propuesta: payload.post,
+      });
+      // console.log(newMessage);
+      const newMessageSaved = await newMessage.save();
+
+      // console.log(newMessageSaved);
+      // const completeMessage = await this.mensajeRepository.findOne(
+      //   { id: newMessageSaved.id },
+      //   { relations: ['msj_idPost_propuesta'] },
+      // );
+      // console.log(completeMessage);
+
+      this.server
+        .to(payload.to)
+        .to(client.userId)
+        .emit('messageDefault', { data: payload.data });
+    } catch (error) {
+      console.log(error);
+    }
   }
   //Estructura para propuesta
   @SubscribeMessage('messageProposal')
@@ -59,7 +87,7 @@ export class MessageGateway
     //Envia mensaje hacia destino payload.data y hacia si mismo
     console.log(payload);
     this.server
-      .to(payload.from)
+      .to(payload.to)
       .to(client.userId)
       .emit('messageDefault', { data: payload.data });
   }

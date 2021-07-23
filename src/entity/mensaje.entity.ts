@@ -4,7 +4,7 @@ import Entity from './base.entity';
 import Post from './post.entity';
 import Usuario from './usuario.entity';
 
-enum Estado {
+export enum Estado {
   Mensaje = 'Mensaje',
   Propuesta = 'Propuesta',
 }
@@ -19,13 +19,13 @@ export default class Mensaje extends Entity {
   @Column()
   msj_contenido: string;
 
-  @Column('text')
+  @Column()
   msj_rol: Estado;
 
-  @Column()
+  @Column({ default: null })
   msj_precio_prop: number;
 
-  @Column()
+  @Column({ default: null })
   msj_descripcion_prop: string;
 
   @Column({
