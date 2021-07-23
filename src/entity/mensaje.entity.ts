@@ -29,8 +29,9 @@ export default class Mensaje extends Entity {
   msj_descripcion_prop: string;
 
   @Column({
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP + 5',
   })
   msj_caducidad_prop: Date;
 

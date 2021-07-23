@@ -9,6 +9,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { add } from 'date-fns';
 import { Server } from 'socket.io';
 import Mensaje, { Estado } from 'src/entity/mensaje.entity';
 import { Repository } from 'typeorm';
@@ -61,7 +62,7 @@ export class MessageGateway
         msj_rol: 'Mensaje' as Estado,
         msj_user_from: payload.from,
         msj_user_to: payload.to,
-        // msj_idPost_propuesta: payload.post,
+        msj_idPost_propuesta: payload.post,
       });
       // console.log(newMessage);
       const newMessageSaved = await newMessage.save();
@@ -86,6 +87,16 @@ export class MessageGateway
   handleMessageProposal(client: any, payload: any): void {
     //Envia mensaje hacia destino payload.data y hacia si mismo
     console.log(payload);
+    const newPropose = this.mensajeRepository.create({
+      msj_contenido: payload.data,
+      msj_rol: 'Propuesta' as Estado,
+      msj_user_from: payload.from,
+      msj_user_to: payload.to,
+      msj_idPost_propuesta: payload.post,
+      msj_precio_prop: 100,
+      msj_descripcion_prop: 'Se construye software',
+      msj_caducidad_prop: add(new Date(), { minutes: 15 }),
+    });
     this.server
       .to(payload.to)
       .to(client.userId)
