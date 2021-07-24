@@ -31,6 +31,16 @@ export class UpdatePostDTO extends BaseDto {
   pst_descripcion: string;
 
   @ApiProperty({
+    description: 'Nombre de servicio',
+    example: 'Arreglo computadoras',
+    type: String,
+  })
+  @IsOptional()
+  @IsString()
+  @Length(10, 255)
+  pst_nombre: string;
+
+  @ApiProperty({
     description: 'Descripcion corta de servicio',
     example: 'Arreglo computadoras',
     type: String,

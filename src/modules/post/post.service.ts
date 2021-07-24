@@ -32,6 +32,7 @@ export class PostService {
         pst_categoria,
         pst_descripcion_corta,
         pst_descripcion_incluye,
+        pst_nombre,
       } = newpost;
       const array_pst_descripcion_incluye = pst_descripcion_incluye.join(',');
       // console.log(req.user .id);
@@ -55,6 +56,7 @@ export class PostService {
         pst_imagen_4,
         pst_imagen_5,
         pst_descripcion_corta,
+        pst_nombre,
         pst_descripcion_incluye: array_pst_descripcion_incluye,
         pstUsuarioId: pst_idUsuario,
         pstCategoriaId: pst_categoria as unknown as Categoria,
@@ -69,7 +71,7 @@ export class PostService {
 
       //Agregar a algolia
       const algoliaPush = {
-        description: slugify(pst_descripcion),
+        description: slugify(pst_nombre),
         objectID: savedPost.id,
         category: categoriaAlgolia,
       };
@@ -147,6 +149,7 @@ export class PostService {
         pst_categoria,
         pst_descripcion_corta,
         pst_descripcion_incluye,
+        pst_nombre,
       } = newpost;
 
       const array_pst_descripcion_incluye = pst_descripcion_incluye.join(',');
@@ -203,6 +206,9 @@ export class PostService {
       }
       if (pst_descripcion_incluye) {
         post.pst_descripcion_incluye = array_pst_descripcion_incluye;
+      }
+      if (pst_nombre) {
+        post.pst_nombre = pst_nombre;
       }
       const postSaved = await post.save();
 

@@ -39,6 +39,15 @@ export class CrearPostDTO extends BaseDto {
   pst_descripcion_corta: string;
 
   @ApiProperty({
+    description: 'Nombre de servicio',
+    example: 'Arreglo computadoras',
+    type: String,
+  })
+  @IsString()
+  @Length(10, 100)
+  pst_nombre: string;
+
+  @ApiProperty({
     description: 'Servicio incluye',
     example: ['Revision', 'Mantenimiento', 'Garantia'],
     type: Array,

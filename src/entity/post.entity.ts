@@ -18,6 +18,9 @@ export default class Post extends Entity {
   pst_descripcion_corta: string;
 
   @Column()
+  pst_nombre: string;
+
+  @Column()
   pst_descripcion_incluye: string;
 
   @Column()
