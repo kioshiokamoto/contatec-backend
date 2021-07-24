@@ -33,6 +33,7 @@ export class PostService {
         pst_descripcion_corta,
         pst_descripcion_incluye,
       } = newpost;
+
       // console.log(req.user .id);
       // console.log(req.user);
       const pst_idUsuario = req.user.id;
