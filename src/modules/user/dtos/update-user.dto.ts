@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -6,6 +7,7 @@ export class UpdateUserDto {
     example: 'Doe',
     type: String,
   })
+  @IsOptional()
   us_nombre?: string;
 
   @ApiProperty({
@@ -13,6 +15,7 @@ export class UpdateUserDto {
     example: 'Doe',
     type: String,
   })
+  @IsOptional()
   us_apellido?: string;
 
   @ApiProperty({
@@ -21,6 +24,7 @@ export class UpdateUserDto {
     minLength: 6,
     type: String,
   })
+  @IsOptional()
   password?: string;
 
   @ApiProperty({
@@ -28,5 +32,6 @@ export class UpdateUserDto {
     example: 'https://christiantola.me/assets/img/nest_logo.d11da205.svg',
     type: String,
   })
+  @IsOptional()
   avatar?: string;
 }

@@ -29,7 +29,11 @@ export class PostModule implements NestModule {
         method: RequestMethod.ALL,
       },
       {
-        path: '/post/:id',
+        path: '/post/update/:id',
+        method: RequestMethod.ALL,
+      },
+      {
+        path: '/post/delete/:id',
         method: RequestMethod.ALL,
       },
     );
