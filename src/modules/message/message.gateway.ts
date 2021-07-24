@@ -84,7 +84,7 @@ export class MessageGateway
   }
   //Estructura para propuesta
   @SubscribeMessage('messageProposal')
-  handleMessageProposal(client: any, payload: any): void {
+  async handleMessageProposal(client: any, payload: any): Promise<void> {
     //Envia mensaje hacia destino payload.data y hacia si mismo
     console.log(payload);
     const newPropose = this.mensajeRepository.create({
@@ -97,9 +97,10 @@ export class MessageGateway
       msj_descripcion_prop: 'Se construye software',
       msj_caducidad_prop: add(new Date(), { minutes: 15 }),
     });
+    const newProposeSaved = await newPropose.save();
     this.server
       .to(payload.to)
       .to(client.userId)
-      .emit('messageDefault', { data: payload.data });
+      .emit('messagePropose', { data: payload.data });
   }
 }
