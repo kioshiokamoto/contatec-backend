@@ -15,6 +15,12 @@ export default class Post extends Entity {
   pst_isActive: boolean;
 
   @Column()
+  pst_descripcion_corta: string;
+
+  @Column()
+  pst_descripcion_incluye: string;
+
+  @Column()
   pst_descripcion: string;
 
   @Column({ default: null })

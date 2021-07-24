@@ -30,6 +30,8 @@ export class PostService {
         pst_imagen_4,
         pst_imagen_5,
         pst_categoria,
+        pst_descripcion_corta,
+        pst_descripcion_incluye,
       } = newpost;
       // console.log(req.user .id);
       // console.log(req.user);
@@ -51,6 +53,8 @@ export class PostService {
         pst_imagen_3,
         pst_imagen_4,
         pst_imagen_5,
+        pst_descripcion_corta,
+        pst_descripcion_incluye,
         pstUsuarioId: pst_idUsuario,
         pstCategoriaId: pst_categoria as unknown as Categoria,
       });
@@ -140,6 +144,8 @@ export class PostService {
         pst_imagen_5,
         pst_precioBase,
         pst_categoria,
+        pst_descripcion_corta,
+        pst_descripcion_incluye,
       } = newpost;
 
       const post = await this.postRepository.findOne(id, {
@@ -190,7 +196,12 @@ export class PostService {
       if (pst_categoria) {
         post.pstCategoriaId = pst_categoria as unknown as Categoria;
       }
-
+      if (pst_descripcion_corta) {
+        post.pst_descripcion_corta = pst_descripcion_corta;
+      }
+      if (pst_descripcion_incluye) {
+        post.pst_descripcion_incluye = pst_descripcion_incluye;
+      }
       const postSaved = await post.save();
       console.log(postSaved);
 
