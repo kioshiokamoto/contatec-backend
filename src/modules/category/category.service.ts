@@ -53,7 +53,7 @@ export class CategoryService {
   async getCategory(id: number) {
     try {
       return await this.categoryRepository.findOne(id, {
-        relations: ['posts'],
+        relations: ['posts', 'posts.pstUsuarioId'],
       });
     } catch (error) {
       return error;
