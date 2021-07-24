@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsArray,
   IsBoolean,
   IsNumber,
   IsOptional,
@@ -39,12 +40,11 @@ export class CrearPostDTO extends BaseDto {
 
   @ApiProperty({
     description: 'Servicio incluye',
-    example: 'Revision,Mantenimiento,Garantia',
-    type: String,
+    example: ['Revision', 'Mantenimiento', 'Garantia'],
+    type: Array,
   })
-  @IsString()
-  @Length(10, 255)
-  pst_descripcion_incluye: string;
+  @IsArray()
+  pst_descripcion_incluye: string[];
 
   @ApiProperty({
     description: 'Descripcion de servicio',

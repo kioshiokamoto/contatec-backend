@@ -33,7 +33,7 @@ export class PostService {
         pst_descripcion_corta,
         pst_descripcion_incluye,
       } = newpost;
-
+      const array_pst_descripcion_incluye = pst_descripcion_incluye.join(',');
       // console.log(req.user .id);
       // console.log(req.user);
       const pst_idUsuario = req.user.id;
@@ -55,7 +55,7 @@ export class PostService {
         pst_imagen_4,
         pst_imagen_5,
         pst_descripcion_corta,
-        pst_descripcion_incluye,
+        pst_descripcion_incluye: array_pst_descripcion_incluye,
         pstUsuarioId: pst_idUsuario,
         pstCategoriaId: pst_categoria as unknown as Categoria,
       });
@@ -149,6 +149,7 @@ export class PostService {
         pst_descripcion_incluye,
       } = newpost;
 
+      const array_pst_descripcion_incluye = pst_descripcion_incluye.join(',');
       const post = await this.postRepository.findOne(id, {
         relations: ['pstUsuarioId', 'pstCategoriaId'],
       });
@@ -201,10 +202,9 @@ export class PostService {
         post.pst_descripcion_corta = pst_descripcion_corta;
       }
       if (pst_descripcion_incluye) {
-        post.pst_descripcion_incluye = pst_descripcion_incluye;
+        post.pst_descripcion_incluye = array_pst_descripcion_incluye;
       }
       const postSaved = await post.save();
-      console.log(postSaved);
 
       return {
         message: 'El post se actualizo correctamente',
