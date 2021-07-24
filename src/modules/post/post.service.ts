@@ -119,9 +119,12 @@ export class PostService {
 
   async getPost(id: number) {
     try {
-      const post = await this.postRepository.findOne(id, {
-        relations: ['pstUsuarioId', 'pstCategoriaId'],
-      });
+      const post = await this.postRepository.findOne(
+        { id },
+        {
+          relations: ['pstUsuarioId', 'pstCategoriaId'],
+        },
+      );
 
       if (!post) {
         throw new HttpException(
