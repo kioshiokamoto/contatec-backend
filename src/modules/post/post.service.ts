@@ -95,11 +95,15 @@ export class PostService {
           console.log(error);
         });
 
+      const postRelations = await this.postRepository.findOne(
+        { id: savedPost.id },
+        { relations: ['pstCategoriaId', 'pstUsuarioId'] },
+      );
+
       return {
         message: 'El post se creo correctamente',
         data: {
-          ...savedPost,
-          pst_category: categoriaAlgolia,
+          ...postRelations,
         },
       };
     } catch (error) {
