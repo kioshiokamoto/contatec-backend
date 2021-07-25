@@ -104,7 +104,7 @@ export class UserService {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/api/user/refresh_token',
         sameSite: 'none',
-        secure: true,
+        // secure: true,
       });
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
@@ -325,7 +325,7 @@ export class UserService {
     try {
       const user = await this.usuariosRepository.findOne(
         { id: req.user.id },
-        { relations: ['posts'] },
+        { relations: ['posts', 'posts.pstCategoriaId'] },
       );
       return user;
     } catch (error) {
