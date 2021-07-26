@@ -46,6 +46,9 @@ describe('Post Controller', () => {
       pst_imagen_3: '',
       pst_imagen_4: '',
       pst_imagen_5: '',
+      pst_nombre: '',
+      pst_descripcion_incluye: ['', ''],
+      pst_descripcion_corta: 'Test',
     };
     expect(postController.createPost(createPostDto, req)).toEqual(
       'El post se creo correctamente',
@@ -74,6 +77,9 @@ describe('Post Controller', () => {
       pst_imagen_3: '',
       pst_imagen_4: '',
       pst_imagen_5: '',
+      pst_nombre: '',
+      pst_descripcion_incluye: ['', ''],
+      pst_descripcion_corta: 'Test',
     };
     expect(postController.updatePost(param, updatePostDto, res)).toEqual(
       'El post se actualizo correctamente',

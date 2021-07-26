@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Controller, Get, Param, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { MessageService } from './message.service';

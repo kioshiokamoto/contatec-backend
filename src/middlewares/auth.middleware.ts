@@ -7,8 +7,9 @@ export class AuthMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
     try {
       const token = req.header('Authorization').split('Bearer ')[1];
-      if (!token)
+      if (!token) {
         return res.status(400).json({ msg: 'Autenticación inválida' });
+      }
       jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(400).json({ msg: 'Autenticación inválida' });
 

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Injectable, Req } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Mensaje from 'src/entity/mensaje.entity';
@@ -22,9 +23,23 @@ export class MessageService {
       .where('user.id = :id', { id: idUsuario })
       // .orderBy("user.id", "DESC")
       .getOne();
-    // const entityManager = getManager();
-    // const data = await entityManager.query(``);
-    return result;
+    const entityManager = getManager();
+    const data = await entityManager.query(`
+    SELECT  M.id,M.msjUserFromId,M.msjUserToId,M.createdAt,M.msj_contenido
+      FROM mensaje M
+        INNER JOIN (
+          SELECT
+            CASE WHEN msjUserFromId > msjUserToId THEN msjUserFromId ELSE msjUserToId END muser1,
+            CASE WHEN msjUserFromId <= msjUserToId THEN msjUserFromId ELSE msjUserToId END muser2,
+            MAX(createdAt) AS max_createat
+          FROM mensaje
+          WHERE ${idUsuario} IN (msjUserFromId, msjUserToId)
+          GROUP BY muser1 , muser2 ) AS filtro
+        ON((M.msjUserFromId IN(filtro.muser1, filtro.muser2)) AND
+          (M.msjUserToId IN(filtro.muser1, filtro.muser2)) AND
+              (M.createdAt = filtro.max_createat))
+    `);
+    return data;
   }
 
   async getAllMessagesWith(req: any, id: number) {
