@@ -35,6 +35,9 @@ export default class Mensaje extends Entity {
   })
   msj_caducidad_prop: Date;
 
+  @Column({ default: false })
+  msg_leido: boolean;
+
   @ManyToOne(() => Post, (post) => post.id)
   msj_idPost_propuesta: number;
 

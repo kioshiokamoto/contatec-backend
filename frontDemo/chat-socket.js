@@ -9,7 +9,7 @@ const handleSubmitNewMessage = () => {
     to: message.value,
     data: message2.value,
     from: 1,
-    post: 39,
+    post: 42,
   });
 };
 socket.on('connect', () => {

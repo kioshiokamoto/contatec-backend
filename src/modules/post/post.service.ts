@@ -219,8 +219,16 @@ export class PostService {
       }
       const postSaved = await post.save();
 
+      const postRelations = await this.postRepository.findOne(
+        { id: postSaved.id },
+        { relations: ['pstCategoriaId', 'pstUsuarioId'] },
+      );
+
       return {
         message: 'El post se actualizo correctamente',
+        data: {
+          ...postRelations,
+        },
       };
     } catch (error) {
       return error;
