@@ -73,7 +73,7 @@ export class PostService {
       const algoliaPush = {
         description: slugify(pst_nombre),
         objectID: savedPost.id,
-        category: categoriaAlgolia,
+        category: pst_categoria,
       };
       const ALGOLIA_APPLICATION_ID = process.env.ALGOLIA_APPLICATION_ID;
       const ALGOLIA_ADMIN_API_KEY = process.env.ALGOLIA_ADMIN_API_KEY;

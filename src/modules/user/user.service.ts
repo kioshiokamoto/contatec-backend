@@ -9,7 +9,6 @@ import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
 import { Repository } from 'typeorm';
 import Usuario from '../../entity/usuario.entity';
 import sendEmail from '../../utils/sendMail';
-
 import {
   ActivateEmailDto,
   CreateUserDto,
@@ -99,13 +98,7 @@ export class UserService {
         'Access-Control-Allow-Headers',
         'Cookie,Set-Cookie,Accept,Content-Type',
       );
-      res.cookie('refreshtoken', refresh_token, {
-        httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        path: '/api/user/refresh_token',
-        sameSite: 'none',
-        secure: true,
-      });
+      setUserCookies(7 * 24 * 60 * 60 * 1000, res, refresh_token);
       res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
     } catch (error) {
       res.status(error.status).json(error);
@@ -206,13 +199,7 @@ export class UserService {
           );
         }
         const refresh_token = createRefreshToken({ id: user.id });
-        res.cookie('refreshtoken', refresh_token, {
-          httpOnly: true,
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          path: '/api/user/refresh_token',
-          sameSite: 'none',
-          secure: true,
-        });
+        setUserCookies(7 * 24 * 60 * 60 * 1000, res, refresh_token);
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       } else {
         const newUser = this.usuariosRepository.create({
@@ -225,13 +212,7 @@ export class UserService {
         await newUser.save();
 
         const refresh_token = createRefreshToken({ id: newUser.id });
-        res.cookie('refreshtoken', refresh_token, {
-          httpOnly: true,
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          path: '/api/user/refresh_token',
-          sameSite: 'none',
-          secure: true,
-        });
+        setUserCookies(7 * 24 * 60 * 60 * 1000, res, refresh_token);
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       }
     } catch (error) {
@@ -266,13 +247,7 @@ export class UserService {
         }
 
         const refresh_token = createRefreshToken({ id: user.id });
-        res.cookie('refreshtoken', refresh_token, {
-          httpOnly: true,
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          path: '/api/user/refresh_token',
-          sameSite: 'none',
-          secure: true,
-        });
+        setUserCookies(7 * 24 * 60 * 60 * 1000, res, refresh_token);
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       } else {
         const newUser = this.usuariosRepository.create({
@@ -285,13 +260,7 @@ export class UserService {
         await newUser.save();
 
         const refresh_token = createRefreshToken({ id: newUser.id });
-        res.cookie('refreshtoken', refresh_token, {
-          httpOnly: true,
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          path: '/api/user/refresh_token',
-          sameSite: 'none',
-          secure: true,
-        });
+        setUserCookies(7 * 24 * 60 * 60 * 1000, res, refresh_token);
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       }
     } catch (error) {
@@ -306,13 +275,8 @@ export class UserService {
         'Access-Control-Allow-Headers',
         'Cookie,Set-Cookie,Accept,Content-Type',
       );
-      res.cookie('refreshtoken', '', {
-        httpOnly: true,
-        maxAge: 10,
-        path: '/api/user/refresh_token',
-        sameSite: 'none',
-        secure: true,
-      });
+
+      setUserCookies(10, res, '');
       console.log('Eliminando Cookie');
       res
         .status(HttpStatus.OK)
@@ -379,5 +343,14 @@ function createAccessToken(payload) {
 function createRefreshToken(payload) {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: '7d',
+  });
+}
+function setUserCookies(time: any, res: any, refresh_token: any) {
+  res.cookie('refreshtoken', refresh_token, {
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: '/api/user/refresh_token',
+    sameSite: 'none',
+    secure: true,
   });
 }

@@ -52,6 +52,9 @@ export class MessageService {
         WHERE U.id=${id}
         ORDER BY 1 DESC;
     `);
+
+    // Marcar como leido todos los mensajes!
+
     return data;
   }
 }
