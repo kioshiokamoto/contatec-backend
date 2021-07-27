@@ -6,6 +6,7 @@ export class UpdateUserDto {
     description: 'Nombre de usuario',
     example: 'Doe',
     type: String,
+    required: false,
   })
   @IsOptional()
   us_nombre?: string;
@@ -14,6 +15,7 @@ export class UpdateUserDto {
     description: 'Apellido de usuario',
     example: 'Doe',
     type: String,
+    required: false,
   })
   @IsOptional()
   us_apellido?: string;
@@ -23,6 +25,7 @@ export class UpdateUserDto {
     example: '123456',
     minLength: 6,
     type: String,
+    required: false,
   })
   @IsOptional()
   password?: string;
@@ -31,6 +34,7 @@ export class UpdateUserDto {
     description: 'Enlace de imagen de usuario',
     example: 'https://christiantola.me/assets/img/nest_logo.d11da205.svg',
     type: String,
+    required: false,
   })
   @IsOptional()
   avatar?: string;

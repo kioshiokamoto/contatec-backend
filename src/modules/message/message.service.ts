@@ -14,18 +14,10 @@ export class MessageService {
 
   async getAllMessages(req: any) {
     const idUsuario = req.user.id;
-    const result = await getRepository(Usuario)
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.messages', 'message')
-      .leftJoinAndSelect('message.msj_idPost_propuesta', 'message_post')
-      .leftJoinAndSelect('message.msj_user_from', 'message_from')
-      .leftJoinAndSelect('message.msj_user_to', 'message_to')
-      .where('user.id = :id', { id: idUsuario })
-      // .orderBy("user.id", "DESC")
-      .getOne();
+
     const entityManager = getManager();
     const data = await entityManager.query(`
-    SELECT  M.id,M.msjUserFromId,M.msjUserToId,M.createdAt,M.msj_contenido
+      SELECT  M.id,M.msjUserFromId,M.msjUserToId,M.createdAt,M.msj_contenido
       FROM mensaje M
         INNER JOIN (
           SELECT
@@ -38,6 +30,7 @@ export class MessageService {
         ON((M.msjUserFromId IN(filtro.muser1, filtro.muser2)) AND
           (M.msjUserToId IN(filtro.muser1, filtro.muser2)) AND
               (M.createdAt = filtro.max_createat))
+      ORDER BY 4 DESC
     `);
     return data;
   }
