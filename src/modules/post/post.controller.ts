@@ -9,8 +9,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CrearPostDTO } from './dtos/create-post.dto';
-import { UpdatePostDTO } from './dtos/update-post.dto';
+import { CrearPostDTO, SearchPostDto, UpdatePostDTO } from './dtos';
 import { PostService } from './post.service';
 
 @ApiTags('Post')
@@ -26,6 +25,11 @@ export class PostController {
   @Get('/all-posts')
   getAllPost() {
     return this.postService.getAllPost();
+  }
+
+  @Get('/search')
+  searchPost(@Body() searchDto: SearchPostDto) {
+    return this.postService.searchPost(searchDto);
   }
 
   @Get('/:id')

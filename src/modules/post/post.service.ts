@@ -1,14 +1,13 @@
 /* istanbul ignore file */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import algoliasearch from 'algoliasearch';
 
 import Post from '../../entity/post.entity';
-import { CrearPostDTO } from './dtos/create-post.dto';
-import { UpdatePostDTO } from './dtos/update-post.dto';
 import { slugify } from '../../utils/slugify';
 import Categoria from '../../entity/categoria.entity';
+import { CrearPostDTO, SearchPostDto, UpdatePostDTO } from './dtos';
 
 @Injectable()
 export class PostService {
@@ -129,14 +128,76 @@ export class PostService {
           relations: ['pstUsuarioId', 'pstCategoriaId'],
         },
       );
-
       if (!post) {
         throw new HttpException(
-          { status: HttpStatus.BAD_REQUEST, error: 'Usuario ya existe' },
-          HttpStatus.BAD_REQUEST,
+          { status: HttpStatus.NOT_FOUND, error: 'No se encontró post' },
+          HttpStatus.NOT_FOUND,
         );
       }
       return post;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async searchPost(searchDto: SearchPostDto) {
+    try {
+      const { categoria_post, nombre_post } = searchDto;
+
+      if (!nombre_post && !categoria_post) {
+        throw new HttpException(
+          { status: HttpStatus.BAD_REQUEST, error: 'Petición inválida' },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      let post: any = {};
+      //Primero se busca por nombre;
+
+      if (nombre_post) {
+        post = await getRepository(Post)
+          .createQueryBuilder('post')
+          .leftJoinAndSelect('post.pstCategoriaId', 'categoria')
+          .where('post.pst_nombre like :nombre', { nombre: `%${nombre_post}%` })
+          .getOne();
+
+        if (post) {
+          return {
+            message: 'Se encontró post',
+            data: {
+              idPost: post.id,
+              idCategoria: post.pstCategoriaId.id,
+            },
+          };
+        }
+      }
+      //Si no encuentra por nombre busca por categoria
+      if (categoria_post) {
+        post = await getRepository(Post)
+          .createQueryBuilder('post')
+          .leftJoinAndSelect('post.pstCategoriaId', 'categoria')
+          .where('categoria.cat_nombre like :nombre', {
+            nombre: `%${categoria_post}%`,
+          })
+          .getOne();
+
+        if (post) {
+          return {
+            message: 'Se encontró post',
+            data: {
+              idPost: post.id,
+              idCategoria: post.pstCategoriaId.id,
+            },
+          };
+        }
+      }
+      // Si no encuentra por categoria retorna error
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'No se encontró post o categoría',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     } catch (error) {
       return error;
     }
