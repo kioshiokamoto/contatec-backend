@@ -27,7 +27,7 @@ export class PostController {
     return this.postService.getAllPost();
   }
 
-  @Get('/search')
+  @Post('/search')
   searchPost(@Body() searchDto: SearchPostDto) {
     return this.postService.searchPost(searchDto);
   }
