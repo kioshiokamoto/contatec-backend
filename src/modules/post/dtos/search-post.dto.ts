@@ -5,6 +5,7 @@ export class SearchPostDto {
     description: 'Nombre de servicio a solicitar',
     example: 'Arreglar computadoras',
     type: String,
+    required: false,
   })
   @IsOptional()
   @IsString()
@@ -14,6 +15,7 @@ export class SearchPostDto {
     description: 'Categoria que pertenece servicio',
     example: 'Mantenimiento',
     type: String,
+    required: false,
   })
   @IsOptional()
   @IsString()
