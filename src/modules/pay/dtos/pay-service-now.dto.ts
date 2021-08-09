@@ -58,6 +58,14 @@ export class PayServiceNow {
   pgo_monto: number;
 
   @ApiProperty({
+    description: 'Trabajo/Servicio a pagar',
+    example: 51,
+    type: Number,
+  })
+  @IsNumber()
+  pgo_trabajoId: number;
+
+  @ApiProperty({
     description: 'Numero telefónico',
     example: '970794009',
     type: String,
