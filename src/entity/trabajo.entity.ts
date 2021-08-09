@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { Estado } from 'src/modules/work/enum/estado';
+import { Estado } from '../modules/work/enum/estado';
 import {
   Column,
   Entity as TOEntity,

@@ -22,6 +22,7 @@ describe('Pay controller', () => {
   });
 
   it('Usuario debe poder realizar pago', () => {
+    const req = mocks.createRequest();
     const payDto = {
       pgo_nombre: 'Name',
       pgo_apellido: 'Last Name',
@@ -31,8 +32,9 @@ describe('Pay controller', () => {
       pgo_monto: 123.0,
       pgo_telefono: '970794003',
       pgo_token_culqi: 'slkj1l0.asd1ashdf',
+      pgo_trabajoId: 1,
     };
-    expect(payController.payServiceNow(payDto)).toEqual(
+    expect(payController.payServiceNow(payDto, req)).toEqual(
       'El pago se realizo correctamente',
     );
   });

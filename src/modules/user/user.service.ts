@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import { google } from 'googleapis';
 import * as jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
-import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
 import { Repository } from 'typeorm';
 import Usuario from '../../entity/usuario.entity';
 import sendEmail from '../../utils/sendMail';

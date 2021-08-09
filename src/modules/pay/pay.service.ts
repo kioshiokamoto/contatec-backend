@@ -1,8 +1,7 @@
-/* istanbul ignore file */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as Culqi from 'culqi-node';
-import Trabajo from 'src/entity/trabajo.entity';
+import Trabajo from '../../entity/trabajo.entity';
 import { Repository } from 'typeorm';
 import Pago from '../../entity/pago.entity';
 import { Estado } from '../work/enum/estado';
