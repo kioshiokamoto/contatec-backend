@@ -1,7 +1,7 @@
 /* istanbul ignore file */
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AcceptPropose } from './dtos';
+import { AcceptPropose, UpdateWork } from './dtos';
 import { WorkService } from './work.service';
 
 @ApiTags('Work')
@@ -19,11 +19,19 @@ export class WorkController {
     return this.workService.acceptPropose(acceptProposeDto);
   }
 
-  @Post('/cancel')
+  @Patch('/cancel')
   @ApiOperation({
     summary: 'Cancela propuesta de servicio',
   })
   cancelWork(@Param('id') id: number) {
     return this.workService.cancelWork(id);
+  }
+
+  @Patch('/update-status')
+  @ApiOperation({
+    summary: 'Actualiza estado de negocio',
+  })
+  updateStatus(@Param('id') id: number, @Body() updateWorkDto: UpdateWork) {
+    return this.workService.updateStatus(id, updateWorkDto);
   }
 }

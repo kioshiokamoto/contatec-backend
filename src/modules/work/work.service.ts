@@ -4,14 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Post from 'src/entity/post.entity';
 import Trabajo from 'src/entity/trabajo.entity';
 import { Repository } from 'typeorm';
-import { AcceptPropose } from './dtos';
+import { AcceptPropose, UpdateWork } from './dtos';
+import { Estado } from './enum/estado';
 
-enum Estado {
-  Contratado = 'Contratado',
-  EnProceso = 'En proceso',
-  Finalizado = 'Finalizado',
-  Cancelado = 'Cancelado',
-}
 @Injectable()
 export class WorkService {
   constructor(
@@ -39,7 +34,7 @@ export class WorkService {
     }
   }
 
-  async cancelWork(id) {
+  async cancelWork(id: number) {
     try {
       const work = await this.workRepository.findOne(id);
 
@@ -49,13 +44,52 @@ export class WorkService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      await this.workRepository.update(
-        { id },
-        { trb_estado: 'Cancelado' as Estado },
-      );
+      if (
+        work.trb_estado === 'Cancelado' ||
+        work.trb_estado === 'Finalizado' ||
+        work.trb_estado === 'En proceso'
+      ) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: 'No es posible cancelar trabajo',
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      work.trb_estado = 'Cancelado' as Estado;
+      await work.save();
+
       return {
         message: 'Se canceló el trabajo',
       };
+    } catch (error) {
+      return error;
+    }
+  }
+  async updateStatus(id: number, updateWorkDto: UpdateWork) {
+    try {
+      const { id_pago, trb_cancelado, trb_estado } = updateWorkDto;
+      const work = await this.workRepository.findOne(id);
+
+      if (!work) {
+        throw new HttpException(
+          { status: HttpStatus.BAD_REQUEST, error: 'Trabajo no existe' },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      if (trb_estado) {
+        work.trb_estado = trb_estado;
+      }
+      if (trb_cancelado) {
+        work.trb_cancelado = trb_cancelado;
+      }
+      if (id_pago) {
+        work.trb_pago = id_pago;
+      }
+      work.save();
+
+      return work;
     } catch (error) {
       return error;
     }
