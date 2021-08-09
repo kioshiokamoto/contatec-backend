@@ -103,4 +103,15 @@ export class MessageGateway
       .to(client.userId)
       .emit('messagePropose', { data: payload.data });
   }
+
+  @SubscribeMessage('acceptPropose')
+  async handleAcceptPropose(client: any, payload: any): Promise<void> {
+    console.log(payload);
+    // Envia notificacion de `Acepto/Aceptaron la propuesta` hacia cliente y proveedor
+    //Envia mensaje hacia destino payload.data y hacia si mismo
+    this.server
+      .to(payload.to)
+      .to(client.userId)
+      .emit('acceptYourPropose', { data: payload.data });
+  }
 }
