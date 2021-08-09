@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PayServiceNow } from './dtos/pay-service-now.dto';
 import { PayService } from './pay.service';
 
@@ -9,7 +9,9 @@ export class PayController {
   constructor(private readonly payService: PayService) {}
 
   @Post('/service')
-  payServiceNow(@Body() payServiceNowDto: PayServiceNow) {
-    return this.payService.payServiceNow(payServiceNowDto);
+  @ApiOperation({ summary: 'Registrar pago' })
+  @ApiBearerAuth('Authorization')
+  payServiceNow(@Body() payServiceNowDto: PayServiceNow, @Req() req) {
+    return this.payService.payServiceNow(payServiceNowDto, req);
   }
 }

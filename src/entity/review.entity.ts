@@ -1,5 +1,6 @@
 /* istanbul ignore file */
-import { Column, Entity as TOEntity, ManyToOne } from 'typeorm';
+import { IsOptional } from 'class-validator';
+import { Column, Entity as TOEntity, JoinColumn, ManyToOne } from 'typeorm';
 import Entity from './base.entity';
 import Post from './post.entity';
 import Usuario from './usuario.entity';
@@ -14,12 +15,14 @@ export default class Review extends Entity {
   @Column()
   rw_score: number;
 
-  @Column()
+  @Column({ default: null })
   rw_comentario: string;
 
   @ManyToOne(() => Usuario, (usuario) => usuario.id)
+  @JoinColumn({ name: 'id_usuario', referencedColumnName: 'id' })
   rw_idUsuario: number;
 
   @ManyToOne(() => Post, (post) => post.id)
+  @JoinColumn({ name: 'id_post', referencedColumnName: 'id' })
   rw_idPost: number;
 }

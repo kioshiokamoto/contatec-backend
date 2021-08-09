@@ -27,6 +27,7 @@ async function bootstrap() {
     .setDescription('Proyecto similar a workana / chambeala')
     .setVersion('0.0.1')
     .setBasePath('api')
+    .addBearerAuth({ type: 'http', in: 'header' }, 'Authorization')
     .build();
   const document = SwaggerModule.createDocument(app, config);
 

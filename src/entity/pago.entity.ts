@@ -1,6 +1,14 @@
 /* istanbul ignore file */
-import { Column, Entity as TOEntity } from 'typeorm';
+import {
+  Column,
+  Entity as TOEntity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
 import Entity from './base.entity';
+import Trabajo from './trabajo.entity';
+import Usuario from './usuario.entity';
 
 @TOEntity('pago')
 export default class Pago extends Entity {
@@ -29,4 +37,8 @@ export default class Pago extends Entity {
 
   @Column()
   pgo_token: string;
+
+  @ManyToOne(() => Usuario, (usuario) => usuario.posts)
+  @JoinColumn({ name: 'id_usuario', referencedColumnName: 'id' })
+  pgo_usuarioId: Usuario;
 }
