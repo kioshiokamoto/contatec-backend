@@ -18,8 +18,9 @@ export class PayService {
     });
   }
 
-  async payServiceNow(payServiceNowDto: PayServiceNow) {
+  async payServiceNow(payServiceNowDto: PayServiceNow, req: any) {
     try {
+      const userPago = req.user.id;
       const charge = await this.culqi.charges.createCharge({
         amount: payServiceNowDto.pgo_monto,
         currency_code: 'PEN',
@@ -38,11 +39,13 @@ export class PayService {
         pgo_telefono: payServiceNowDto.pgo_telefono,
         pgo_monto: payServiceNowDto.pgo_monto,
         pgo_token: charge.id,
+        pgo_usuarioId: userPago,
       });
       await newPago.save();
 
       return {
         message: 'El pago se realizo correctamente',
+        pago: newPago,
       };
     } catch (error) {
       return error;

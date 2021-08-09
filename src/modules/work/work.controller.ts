@@ -1,6 +1,11 @@
 /* istanbul ignore file */
 import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AcceptPropose, UpdateWork } from './dtos';
 import { WorkService } from './work.service';
 
@@ -10,6 +15,7 @@ export class WorkController {
   constructor(private readonly workService: WorkService) {}
 
   @Post('/accept-propose')
+  @ApiBearerAuth('Authorization')
   @ApiOperation({ summary: 'Acepta propuesta de servicio' })
   @ApiResponse({
     status: 201,
@@ -20,6 +26,7 @@ export class WorkController {
   }
 
   @Patch('/cancel')
+  @ApiBearerAuth('Authorization')
   @ApiOperation({
     summary: 'Cancela propuesta de servicio',
   })
@@ -28,6 +35,7 @@ export class WorkController {
   }
 
   @Patch('/update-status')
+  @ApiBearerAuth('Authorization')
   @ApiOperation({
     summary: 'Actualiza estado de negocio',
   })

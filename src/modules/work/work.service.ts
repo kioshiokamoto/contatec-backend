@@ -28,7 +28,12 @@ export class WorkService {
         { id: savedWork.id },
         { relations: ['trb_pago', 'trb_mensaje'] },
       );
-      return workReltations;
+      return {
+        message: 'Se aceptó propuesta correctamente',
+        data: {
+          ...workReltations,
+        },
+      };
     } catch (error) {
       return error;
     }
@@ -61,7 +66,7 @@ export class WorkService {
       await work.save();
 
       return {
-        message: 'Se canceló el trabajo',
+        message: 'Se canceló el trabajo correctamente',
       };
     } catch (error) {
       return error;
@@ -89,7 +94,12 @@ export class WorkService {
       }
       work.save();
 
-      return work;
+      return {
+        message: 'Se actualizó estado de trabajo correctamente ',
+        data: {
+          ...work,
+        },
+      };
     } catch (error) {
       return error;
     }

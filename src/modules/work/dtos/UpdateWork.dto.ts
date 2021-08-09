@@ -8,6 +8,7 @@ export class UpdateWork {
     example: true,
     default: false,
     type: Boolean,
+    required: false,
   })
   @IsOptional()
   trb_cancelado: boolean;
@@ -16,6 +17,7 @@ export class UpdateWork {
     description: 'Estado de pago',
     example: 'Contratado' as Estado,
     enum: Estado,
+    required: false,
   })
   @IsOptional()
   trb_estado: Estado;
@@ -24,6 +26,7 @@ export class UpdateWork {
     description: 'Id de pago',
     example: 1,
     type: Number,
+    required: false,
   })
   @IsOptional()
   id_pago: number;

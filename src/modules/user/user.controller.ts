@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Patch, Post, Req, Res } from '@nestjs/common';
-import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import {
   ActivateEmailDto,
@@ -67,21 +72,14 @@ export class UserController {
     return this.userService.logout(res);
   }
 
-  //Datos de usuario
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Token de usuario',
-  })
   @Get('/info')
+  @ApiBearerAuth('Authorization')
   getUserInfo(@Req() req: Request) {
     return this.userService.getUserInfo(req);
   }
 
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Token de usuario',
-  })
   @Patch('/update')
+  @ApiBearerAuth('Authorization')
   updateUser(@Body() dto: UpdateUserDto, @Req() req: Request) {
     return this.userService.updateUser(dto, req);
   }

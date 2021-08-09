@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import { Controller, Get, Param, Req } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { MessageService } from './message.service';
 
 @ApiTags('Messages')
@@ -9,11 +9,13 @@ export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
   @Get('/all')
+  @ApiBearerAuth('Authorization')
   getAllMessages(@Req() req) {
     return this.messageService.getAllMessages(req);
   }
 
   @Get('/all/:id')
+  @ApiBearerAuth('Authorization')
   getAllMessagesWith(@Req() req, @Param('id') id: number) {
     return this.messageService.getAllMessagesWith(req, id);
   }

@@ -8,7 +8,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CrearPostDTO, SearchPostDto, UpdatePostDTO } from './dtos';
 import { PostService } from './post.service';
 
@@ -43,6 +43,7 @@ export class PostController {
   }
 
   @Patch('/update/:id')
+  @ApiBearerAuth('Authorization')
   updatePost(
     @Param('id') id: number,
     @Body() postDto: UpdatePostDTO,
@@ -52,6 +53,7 @@ export class PostController {
   }
 
   @Delete('/delete/:id')
+  @ApiBearerAuth('Authorization')
   deletePost(@Param('id') id: number) {
     return this.postService.deletePost(id);
   }
