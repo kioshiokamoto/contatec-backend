@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Test } from '@nestjs/testing';
 import * as mocks from 'node-mocks-http';
 import { PostController } from './post.controller';
@@ -20,6 +21,9 @@ describe('Post Controller', () => {
     }),
     deletePost: jest.fn().mockImplementation((dto) => {
       return 'Se elimino el post correctamente';
+    }),
+    searchPost: jest.fn().mockImplementation((dto) => {
+      return 'Se encontró post';
     }),
   };
 
@@ -92,5 +96,12 @@ describe('Post Controller', () => {
       'Se elimino el post correctamente',
     );
     expect(mockPostService.deletePost).toHaveBeenCalled();
+  });
+  it('Usuario puede buscar un post', () => {
+    const body = {
+      nombre_post: '',
+      categoria_post: '',
+    };
+    expect(postController.searchPost(body)).toEqual('Se encontró post');
   });
 });

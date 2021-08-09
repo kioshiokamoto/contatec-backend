@@ -180,7 +180,7 @@ export class UserService {
         audience: process.env.MAILING_SERVICE_CLIENT_ID,
       });
       const { email_verified, email, name, picture } = verify.getPayload();
-
+      console.log({ email_verified, email, name, picture });
       const password = email + process.env.GOOGLE_SECRET;
 
       if (!email_verified) {
@@ -216,6 +216,7 @@ export class UserService {
         res.status(HttpStatus.OK).json({ message: 'Inicio de sesión exitoso' });
       }
     } catch (error) {
+      console.log(error);
       res.status(error.status).json(error);
     }
   }

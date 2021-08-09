@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Test } from '@nestjs/testing';
 import * as mocks from 'node-mocks-http';
 import { UserController } from './user.controller';
@@ -156,5 +157,32 @@ describe('User Controller', () => {
       facebookDto,
       res,
     );
+  });
+  it('Usuario debe resetear su contraseña', () => {
+    const req = mocks.createRequest();
+    const body = {
+      password: '123456',
+    };
+    expect(userController.resetPassword(req, body)).toEqual(
+      'Contraseña a sido cambiada',
+    );
+    expect(mockUserService.resetPassword).toHaveBeenCalled();
+  });
+  it('Usuario debe poder obtener su token', () => {
+    const req = mocks.createRequest();
+    expect(userController.getAccessToken(req)).toEqual({
+      access_token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI1ODcwNzkwLCJleHAiOjE2MjU4NzI1OTB9.0j4lhCv4H3bFvWGgvGYPloxWM_Wfe5CG0kEl3y2P0YQ',
+    });
+    expect(mockUserService.getAccessToken).toHaveBeenCalledWith(req);
+  });
+  it('Usuario debe logearse', () => {
+    const body = {
+      us_correo: 'joahndoe@email.com',
+      password: '123458',
+    };
+    const res = mocks.createResponse();
+    expect(userController.login(body, res)).toEqual('Inicio de sesión exitoso');
+    expect(mockUserService.login).toHaveBeenCalledWith(body, res);
   });
 });
