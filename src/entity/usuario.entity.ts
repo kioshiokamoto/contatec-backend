@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Exclude } from 'class-transformer';
 import { IsEmail, Length } from 'class-validator';
 import {
