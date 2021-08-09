@@ -267,6 +267,7 @@ export class UserService {
       res.status(error.status).json(error);
     }
   }
+
   async logout(res: Response) {
     try {
       // console.log(res.cookie);
