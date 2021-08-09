@@ -6,11 +6,11 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostController } from './post.controller';
-import { PostService } from './post.service';
+import Categoria from 'src/entity/categoria.entity';
 import Post from 'src/entity/post.entity';
 import { AuthMiddleware } from 'src/middlewares/auth.middleware';
-import Categoria from 'src/entity/categoria.entity';
+import { PostController } from './post.controller';
+import { PostService } from './post.service';
 
 @Module({
   imports: [

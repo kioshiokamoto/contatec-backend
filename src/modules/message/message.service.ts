@@ -1,9 +1,9 @@
 /* istanbul ignore file */
-import { Injectable, Req } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Mensaje from 'src/entity/mensaje.entity';
 import Usuario from 'src/entity/usuario.entity';
-import { getManager, getRepository, Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 
 @Injectable()
 export class MessageService {

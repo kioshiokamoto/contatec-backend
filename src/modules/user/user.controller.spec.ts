@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
+import * as mocks from 'node-mocks-http';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import * as mocks from 'node-mocks-http';
 describe('User Controller', () => {
   let userController: UserController;
   const mockUserService = {

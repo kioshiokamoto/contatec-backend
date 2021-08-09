@@ -1,13 +1,21 @@
 /* istanbul ignore file */
-import { Column, Entity as TOEntity, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity as TOEntity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
 import Entity from './base.entity';
 import Mensaje from './mensaje.entity';
 import Pago from './pago.entity';
+import Usuario from './usuario.entity';
 
 enum Estado {
   Contratado = 'Contratado',
   EnProceso = 'En proceso',
   Finalizado = 'Finalizado',
+  Cancelado = 'Cancelado',
 }
 
 @TOEntity('trabajo')
@@ -17,15 +25,17 @@ export default class Trabajo extends Entity {
     Object.assign(this, trabajo);
   }
 
-  @Column()
+  @Column({ default: false })
   trb_cancelado: boolean;
 
-  @Column('text')
+  @Column({ default: 'Contratado' })
   trb_estado: Estado;
 
-  @ManyToOne(() => Pago, (pago) => pago.id)
+  @OneToOne(() => Pago, (pago) => pago.id)
+  @JoinColumn({ name: 'id_pago', referencedColumnName: 'id' })
   trb_pago: number;
 
-  @ManyToOne(() => Mensaje, (mensaje) => mensaje.id)
+  @OneToOne(() => Mensaje, (mensaje) => mensaje.id)
+  @JoinColumn({ name: 'id_mensaje', referencedColumnName: 'id' })
   trb_mensaje: number;
 }

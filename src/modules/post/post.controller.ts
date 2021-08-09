@@ -27,6 +27,11 @@ export class PostController {
     return this.postService.getAllPost();
   }
 
+  @Get('/explore-posts')
+  getExplorePosts() {
+    return this.postService.getExplorePosts();
+  }
+
   @Post('/search')
   searchPost(@Body() searchDto: SearchPostDto) {
     return this.postService.searchPost(searchDto);

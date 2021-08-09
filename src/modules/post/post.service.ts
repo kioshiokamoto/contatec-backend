@@ -1,12 +1,11 @@
 /* istanbul ignore file */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getRepository, Repository } from 'typeorm';
 import algoliasearch from 'algoliasearch';
-
+import { getRepository, Repository } from 'typeorm';
+import Categoria from '../../entity/categoria.entity';
 import Post from '../../entity/post.entity';
 import { slugify } from '../../utils/slugify';
-import Categoria from '../../entity/categoria.entity';
 import { CrearPostDTO, SearchPostDto, UpdatePostDTO } from './dtos';
 
 @Injectable()
@@ -63,10 +62,10 @@ export class PostService {
 
       const savedPost = await post.save();
 
-      const { cat_nombre: categoriaAlgolia } =
-        await this.categoryRepository.findOne({
-          id: Number(pst_categoria),
-        });
+      // const { cat_nombre: categoriaAlgolia } =
+      //   await this.categoryRepository.findOne({
+      //     id: Number(pst_categoria),
+      //   });
 
       //Agregar a algolia
       const algoliaPush = {
@@ -120,6 +119,41 @@ export class PostService {
     }
   }
 
+  async getExplorePosts() {
+    try {
+      //Agregar where con contador de reviews
+      const recommendedPosts = await this.postRepository
+        .createQueryBuilder('post')
+        .leftJoinAndSelect('post.pstCategoriaId', 'categoria')
+        .leftJoinAndSelect('post.pstUsuarioId', 'usuario')
+        .orderBy('post.createdAt', 'DESC')
+        .limit(5)
+        .getMany();
+      //Finalizada
+      const latestPosts = await this.postRepository
+        .createQueryBuilder('post')
+        .leftJoinAndSelect('post.pstCategoriaId', 'categoria')
+        .leftJoinAndSelect('post.pstUsuarioId', 'usuario')
+        .orderBy('post.createdAt', 'DESC')
+        .limit(5)
+        .getMany();
+      // Retorrna posts recientemente actualizados
+      const interestingPosts = await this.postRepository
+        .createQueryBuilder('post')
+        .leftJoinAndSelect('post.pstCategoriaId', 'categoria')
+        .leftJoinAndSelect('post.pstUsuarioId', 'usuario')
+        .orderBy('post.updatedAt', 'DESC')
+        .limit(5)
+        .getMany();
+      return {
+        recommendedPosts,
+        latestPosts,
+        interestingPosts,
+      };
+    } catch (error) {
+      return error;
+    }
+  }
   async getPost(id: number) {
     try {
       const post = await this.postRepository.findOne(

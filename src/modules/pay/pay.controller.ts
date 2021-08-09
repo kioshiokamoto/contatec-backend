@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PayServiceNow } from './dtos/pay-service-now.dto';
 import { PayService } from './pay.service';

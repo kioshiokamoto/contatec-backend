@@ -6,10 +6,8 @@ import {
   Param,
   Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-
 import { CategoryService } from './category.service';
 import { CategoriaActualizarDTO } from './dto/categoria-actualizar.dto';
 import { CategoriaDTO } from './dto/categoria.dto';
