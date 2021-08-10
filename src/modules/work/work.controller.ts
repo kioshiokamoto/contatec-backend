@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import {
   ApiBearerAuth,

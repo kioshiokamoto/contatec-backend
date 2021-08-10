@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Mensaje from 'src/entity/mensaje.entity';

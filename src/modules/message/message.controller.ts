@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Controller, Get, Param, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MessageService } from './message.service';

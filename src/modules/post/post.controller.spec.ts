@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Test } from '@nestjs/testing';
 import * as mocks from 'node-mocks-http';
 import { PostController } from './post.controller';
