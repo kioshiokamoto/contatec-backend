@@ -43,7 +43,6 @@ export class PayService {
         pgo_token: charge.id,
         pgo_usuarioId: userPago,
       });
-
       const newPago = await pago.save();
 
       //Actualizar estado de pago
