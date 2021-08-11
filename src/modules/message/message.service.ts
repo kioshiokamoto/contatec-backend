@@ -16,7 +16,9 @@ export class MessageService {
 
     const entityManager = getManager();
     const data = await entityManager.query(`
-      SELECT  M.id,M.msjUserFromId,M.msjUserToId,M.createdAt,M.msj_contenido
+      SELECT  M.id,M.msjUserFromId,M.msjUserToId,M.createdAt,M.msj_contenido,
+        CONCAT(U.us_nombre,' ',U.us_apellido) as nameAmiwi ,U.avatar as ImagenAmiwi,
+          U.id as idAmiwi
       FROM mensaje M
         INNER JOIN (
           SELECT
@@ -29,7 +31,8 @@ export class MessageService {
         ON((M.msjUserFromId IN(filtro.muser1, filtro.muser2)) AND
           (M.msjUserToId IN(filtro.muser1, filtro.muser2)) AND
               (M.createdAt = filtro.max_createat))
-      ORDER BY 4 DESC
+        INNER JOIN usuario U ON(CASE WHEN filtro.muser1 IN(${idUsuario}) THEN U.id=filtro.muser2 ELSE U.id=filtro.muser1 END)
+      ORDER BY 4 DESC;
     `);
     return data;
   }

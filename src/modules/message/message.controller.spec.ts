@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
+import * as mocks from 'node-mocks-http';
 import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
-import * as mocks from 'node-mocks-http';
 
 describe('Message Controller', () => {
   let messageController: MessageController;
