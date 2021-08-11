@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Test, TestingModule } from '@nestjs/testing';
 import * as mocks from 'node-mocks-http';
 import { AuthMiddleware } from './auth.middleware';

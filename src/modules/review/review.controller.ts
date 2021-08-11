@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Body, Controller, Post, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateReview } from './dtos';

@@ -1,6 +1,4 @@
-/* istanbul ignore file */
 import { Test } from '@nestjs/testing';
-import * as mocks from 'node-mocks-http';
 import { CategoryController } from './category.controller';
 import { CategoryService } from './category.service';
 describe('Category Controller', () => {

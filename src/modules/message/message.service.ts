@@ -1,8 +1,7 @@
-/* istanbul ignore file */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Mensaje from 'src/entity/mensaje.entity';
-import Usuario from 'src/entity/usuario.entity';
+import Mensaje from '../../entity/mensaje.entity';
+import Usuario from '../../entity/usuario.entity';
 import { getManager, Repository } from 'typeorm';
 
 @Injectable()
