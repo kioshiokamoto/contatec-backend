@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Post from 'src/entity/post.entity';
-import Review from 'src/entity/review.entity';
-import Trabajo from 'src/entity/trabajo.entity';
+import Post from '../../entity/post.entity';
+import Review from '../../entity/review.entity';
+import Trabajo from '../../entity/trabajo.entity';
 import { Repository } from 'typeorm';
 import { CreateReview } from './dtos';
 
@@ -29,7 +29,6 @@ export class ReviewService {
         rw_idUsuario: usuario,
         rw_idPost,
       });
-
       const savedReview = await review.save();
 
       return {
