@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as mocks from 'node-mocks-http';
 import { AuthMiddleware } from './auth.middleware';
-
+import * as jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
+dotenv.config();
 describe('AuthMiddleware', () => {
   let service: AuthMiddleware;
   const req = mocks.createRequest();
@@ -39,5 +41,29 @@ describe('AuthMiddleware', () => {
       return;
     });
     expect(res.statusCode).toEqual(400);
+  });
+  it('La operación sale con éxito', () => {
+    const id = 1;
+    req.user = 'name';
+    const token = jwt.sign(
+      {
+        id: id,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: '30m',
+      },
+    );
+    req.headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const abc = service.use(req, res, () => {
+      return;
+    });
+    expect(req.user).toEqual({
+      id: id,
+      iat: expect.any(Number),
+      exp: expect.any(Number),
+    });
   });
 });

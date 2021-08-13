@@ -24,6 +24,9 @@ describe('Post Controller', () => {
     searchPost: jest.fn().mockImplementation((dto) => {
       return 'Se encontró post';
     }),
+    getExplorePosts: jest.fn().mockImplementation((dto) => {
+      return [];
+    }),
   };
 
   beforeEach(async () => {
@@ -61,6 +64,10 @@ describe('Post Controller', () => {
   it('Usuario sin autenticar debe poder acceder a todos los posts', () => {
     expect(postController.getAllPost()).toEqual([]);
     expect(mockPostService.createPost).toHaveBeenCalled();
+  });
+  it('Usuario puede explorar posts', () => {
+    expect(postController.getExplorePosts()).toEqual([]);
+    expect(mockPostService.getExplorePosts).toHaveBeenCalled();
   });
   it('Usuario debe poder obtener un solo post', () => {
     const param = 1;

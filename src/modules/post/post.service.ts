@@ -82,15 +82,7 @@ export class PostService {
       );
 
       const index = client.initIndex(ALGOLIA_INDEX_NAME);
-
-      index
-        .saveObject(algoliaPush)
-        .then((objectID) => {
-          console.log({ objectID });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      await index.saveObject(algoliaPush);
 
       const postRelations = await this.postRepository.findOne(
         { id: savedPost.id },

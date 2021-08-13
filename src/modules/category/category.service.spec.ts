@@ -4,10 +4,10 @@ import { Repository } from 'typeorm';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import Categoria from '../../entity/categoria.entity';
 import { CategoryService } from './category.service';
+import { CategoriaActualizarDTO } from './dto/categoria-actualizar.dto';
 
 const mockRepository = () => ({
   findOne: jest.fn(),
-  save: jest.fn(),
   create: jest.fn(),
   find: jest.fn(),
   delete: jest.fn(),
@@ -102,6 +102,16 @@ describe('CategoryService', () => {
     it('Actualiza el producto', async () => {
       categoryRepository.findOne.mockResolvedValue(createCategoryArgs);
       const result = await service.updateCategory(number, createCategoryArgs);
+      expect(result).toEqual({
+        message: 'Categoría a sido actualizada',
+      });
+    });
+    it('Actualiza el producto sin hacer cambios', async () => {
+      categoryRepository.findOne.mockResolvedValue(createCategoryArgs);
+      const result = await service.updateCategory(
+        number,
+        new CategoriaActualizarDTO(),
+      );
       expect(result).toEqual({
         message: 'Categoría a sido actualizada',
       });

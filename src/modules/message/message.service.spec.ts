@@ -30,6 +30,7 @@ class Mock {
 describe('CategoryService', () => {
   let service: MessageService;
   let categoryRepository: MockRepository<Mensaje>;
+  let mock: Mock;
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
@@ -59,7 +60,7 @@ describe('CategoryService', () => {
     };
     const fakeManager = createStubInstance(typeorm.EntityManager);
     fakeManager.query.resolves([]);
-    const mock = new Mock('getManager', fakeManager);
+    mock = new Mock('getManager', fakeManager);
     const res = await service.getAllMessages(req);
     expect(res).toStrictEqual([]);
     afterEach(() => mock.close());
