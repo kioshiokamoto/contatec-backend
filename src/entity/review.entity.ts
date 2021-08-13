@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { IsOptional } from 'class-validator';
 import { Column, Entity as TOEntity, JoinColumn, ManyToOne } from 'typeorm';
 import Entity from './base.entity';

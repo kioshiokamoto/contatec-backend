@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import {
   Column,
   Entity as TOEntity,

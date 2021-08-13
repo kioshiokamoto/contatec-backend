@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Post from 'src/entity/post.entity';
-import Trabajo from 'src/entity/trabajo.entity';
+import Post from '../../entity/post.entity';
+import Trabajo from '../../entity/trabajo.entity';
 import { Repository } from 'typeorm';
 import { AcceptPropose, UpdateWork } from './dtos';
 import { Estado } from './enum/estado';

@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Column, Entity as TOEntity, OneToMany } from 'typeorm';
 import Entity from './base.entity';
 import Post from './post.entity';

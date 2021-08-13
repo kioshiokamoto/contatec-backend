@@ -42,7 +42,7 @@ describe('UsersService', () => {
   it('be defined', () => {
     expect(service).toBeDefined();
   });
-  /*describe('createAccount', () => {
+  describe('createAccount', () => {
     const culqi = new Culqi({
       privateKey: process.env.SK_CULQI,
       publicKey: process.env.PK_CULQI,
@@ -103,5 +103,5 @@ describe('UsersService', () => {
         'Tarjeta perdida. La tarjeta fue bloqueada y reportada al banco emisor como una tarjeta perdida.',
       );
     });
-  });*/
+  });
 });
