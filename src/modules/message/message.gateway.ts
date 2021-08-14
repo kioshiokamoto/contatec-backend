@@ -46,7 +46,7 @@ export class MessageGateway
   @SubscribeMessage('identity')
   handleIdentity(client: any, payload: any): void {
     client.userId = payload;
-    console.log(client.userId);
+    this.logger.log('ID emit: ' + client.userId);
     //Agregar cliente a sala
     client.join(client.userId);
   }
