@@ -70,7 +70,7 @@ export class PostService {
       const algoliaPush = {
         description: slugify(pst_nombre),
         objectID: savedPost.id,
-        category: pst_categoria,
+        category_id: pst_categoria,
       };
       const ALGOLIA_APPLICATION_ID = process.env.ALGOLIA_APPLICATION_ID;
       const ALGOLIA_ADMIN_API_KEY = process.env.ALGOLIA_ADMIN_API_KEY;
@@ -82,7 +82,8 @@ export class PostService {
       );
 
       const index = client.initIndex(ALGOLIA_INDEX_NAME);
-      await index.saveObject(algoliaPush);
+      const algoliasave = await index.saveObject(algoliaPush);
+      console.log(algoliasave);
 
       const postRelations = await this.postRepository.findOne(
         { id: savedPost.id },

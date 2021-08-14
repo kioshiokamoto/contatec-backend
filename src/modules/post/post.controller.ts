@@ -18,6 +18,7 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post('/create')
+  @ApiBearerAuth('Authorization')
   @ApiOperation({ summary: 'Crear post' })
   createPost(@Body() createPost: CrearPostDTO, @Req() req) {
     return this.postService.createPost(createPost, req);
