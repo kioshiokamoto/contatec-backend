@@ -69,7 +69,7 @@ export class MessageService {
     // Marcar como leido todos los mensajes!
 
     return {
-      ...data,
+      data: [...data],
       nombreAmigo: userFriend.us_correo + ' ' + userFriend.us_apellido,
       fotoAmigo: userFriend.avatar,
     };
