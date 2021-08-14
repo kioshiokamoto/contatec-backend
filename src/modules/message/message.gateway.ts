@@ -92,6 +92,9 @@ export class MessageGateway
       this.server
         .to(payload.to)
         .emit('messageDefaultResponse', 'Se envia mensaje');
+      this.server
+        .to(payload.from)
+        .emit('messageDefaultResponse', 'Se envia mensaje');
     } catch (error) {
       console.log(error);
     }
