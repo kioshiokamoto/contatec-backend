@@ -78,17 +78,21 @@ export class MessageGateway
       this.logger.log('Usuario que recibe: ' + payload.to);
 
       // .to(client.userId)
+      // this.server
+      //   .to(payload.to)
+      //   .to(payload.from)
+      //   .emit('messageDefaultResponse', {
+      //     data: {
+      //       createdAt: newMessageSaved.createdAt,
+      //       msjUserFromId: newMessageSaved.msj_user_from,
+      //       msjUserToId: newMessageSaved.msj_user_to,
+      //       msj_contenido: newMessageSaved.msj_contenido,
+      //     },
+      //   });
       this.server
         .to(payload.to)
         .to(payload.from)
-        .emit('messageDefaultResponse', {
-          data: {
-            createdAt: newMessageSaved.createdAt,
-            msjUserFromId: newMessageSaved.msj_user_from,
-            msjUserToId: newMessageSaved.msj_user_to,
-            msj_contenido: newMessageSaved.msj_contenido,
-          },
-        });
+        .emit('messageDefaultResponse', 'Se envia mensaje');
     } catch (error) {
       console.log(error);
     }
