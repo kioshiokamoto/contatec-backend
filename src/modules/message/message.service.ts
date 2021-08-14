@@ -43,25 +43,27 @@ export class MessageService {
     const entityManager = getManager();
     const data = await entityManager.query(`
       SELECT
-            M.createdAt,
-            msj_contenido,
-            msjIdPostPropuestaId,
-            msjUserFromId,
-            msjUserToId
-        FROM mensaje M
-            INNER JOIN usuario U ON(M.msjUserFromId=U.id)
-        WHERE U.id=${id}
-        UNION
-        SELECT
-            M.createdAt,
-            msj_contenido,
-            msjIdPostPropuestaId,
-            msjUserFromId,
-            msjUserToId
-        FROM mensaje M
-            INNER JOIN usuario U ON(M.msjUserToId=U.id)
-        WHERE U.id=${id}
-        ORDER BY 1 DESC;
+          M.createdAt,
+          msj_contenido,
+          msjIdPostPropuestaId,
+          msjUserFromId,
+          msjUserToId
+      FROM mensaje M
+          INNER JOIN usuario U ON(M.msjUserFromId=U.id)
+          INNER JOIN usuario U1 ON(M.msjUserToId=U1.id)
+      WHERE U.id=${id} AND U1.id=${idUsuario}
+      UNION
+      SELECT
+          M.createdAt,
+          msj_contenido,
+          msjIdPostPropuestaId,
+          msjUserFromId,
+          msjUserToId
+      FROM mensaje M
+          INNER JOIN usuario U ON(M.msjUserFromId=U.id)
+          INNER JOIN usuario U1 ON(M.msjUserToId=U1.id)
+      WHERE U.id=${idUsuario} AND U1.id=${id}
+      ORDER BY 1 DESC;
     `);
 
     const userFriend = await this.userRepository.findOne({ id: id });
