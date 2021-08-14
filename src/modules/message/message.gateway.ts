@@ -73,10 +73,13 @@ export class MessageGateway
       //   { relations: ['msj_idPost_propuesta'] },
       // );
       // console.log(completeMessage);
+      this.logger.log('Cliente que emite: ' + payload.from);
+      this.logger.log('Usuario que recibe: ' + payload.to);
 
+      // .to(client.userId)
       this.server
         .to(payload.to)
-        .to(client.userId)
+        .to(payload.from)
         .emit('messageDefault', {
           data: {
             createdAt: newMessageSaved.createdAt,
