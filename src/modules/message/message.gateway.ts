@@ -89,12 +89,22 @@ export class MessageGateway
       //       msj_contenido: newMessageSaved.msj_contenido,
       //     },
       //   });
-      this.server
-        .to(payload.to)
-        .emit('messageDefaultResponse', 'Se envia mensaje');
-      this.server
-        .to(payload.from)
-        .emit('messageDefaultResponse', 'Se envia mensaje');
+      this.server.to(payload.to).emit('messageDefaultResponse', {
+        data: {
+          createdAt: newMessageSaved.createdAt,
+          msjUserFromId: newMessageSaved.msj_user_from,
+          msjUserToId: newMessageSaved.msj_user_to,
+          msj_contenido: newMessageSaved.msj_contenido,
+        },
+      });
+      this.server.to(payload.from).emit('messageDefaultResponse', {
+        data: {
+          createdAt: newMessageSaved.createdAt,
+          msjUserFromId: newMessageSaved.msj_user_from,
+          msjUserToId: newMessageSaved.msj_user_to,
+          msj_contenido: newMessageSaved.msj_contenido,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
