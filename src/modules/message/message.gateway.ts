@@ -77,7 +77,14 @@ export class MessageGateway
       this.server
         .to(payload.to)
         .to(client.userId)
-        .emit('messageDefault', { data: payload.data });
+        .emit('messageDefault', {
+          data: {
+            createdAt: newMessageSaved.createdAt,
+            msjUserFromId: newMessageSaved.msj_user_from,
+            msjUserToId: newMessageSaved.msj_user_to,
+            msj_contenido: newMessageSaved.msj_contenido,
+          },
+        });
     } catch (error) {
       console.log(error);
     }
