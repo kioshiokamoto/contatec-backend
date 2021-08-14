@@ -73,6 +73,7 @@ export class MessageGateway
       //   { relations: ['msj_idPost_propuesta'] },
       // );
       // console.log(completeMessage);
+      this.logger.log('Cliente que emite - client.userId: ' + client.userId);
       this.logger.log('Cliente que emite: ' + payload.from);
       this.logger.log('Usuario que recibe: ' + payload.to);
 
