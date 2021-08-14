@@ -62,7 +62,7 @@ export class MessageGateway
         msj_rol: 'Mensaje' as Estado,
         msj_user_from: payload.from,
         msj_user_to: payload.to,
-        msj_idPost_propuesta: payload.post,
+        msj_idPost_propuesta: payload.post || null,
       });
       // console.log(newMessage);
       const newMessageSaved = await newMessage.save();
