@@ -81,7 +81,7 @@ export class MessageGateway
       this.server
         .to(payload.to)
         .to(payload.from)
-        .emit('messageDefault', {
+        .emit('messageDefaultResponse', {
           data: {
             createdAt: newMessageSaved.createdAt,
             msjUserFromId: newMessageSaved.msj_user_from,
