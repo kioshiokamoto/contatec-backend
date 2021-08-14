@@ -38,6 +38,7 @@ export class MessageService {
   }
 
   async getAllMessagesWith(req: any, id: number) {
+    const idUsuario = req.user.id;
     //Mensajes con persona seleccionada
     const entityManager = getManager();
     const data = await entityManager.query(`
@@ -63,8 +64,14 @@ export class MessageService {
         ORDER BY 1 DESC;
     `);
 
+    const userFriend = await this.userRepository.findOne({ id: id });
+
     // Marcar como leido todos los mensajes!
 
-    return data;
+    return {
+      ...data,
+      nombreAmigo: userFriend.us_correo + ' ' + userFriend.us_apellido,
+      fotoAmigo: userFriend.avatar,
+    };
   }
 }
