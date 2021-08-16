@@ -18,7 +18,7 @@ type MockRepository<T = any> = Partial<
   Record<keyof Repository<Post>, jest.Mock>
 >;
 
-describe('CategoryService', () => {
+describe('WorkService', () => {
   let service: WorkService;
   let workRepository: MockRepository<Trabajo>;
   beforeEach(async () => {
@@ -38,10 +38,10 @@ describe('CategoryService', () => {
     service = module.get<WorkService>(WorkService);
     workRepository = module.get(getRepositoryToken(Trabajo));
   });
-  it('be defined', () => {
+  it('Debería estar definido', () => {
     expect(service).toBeDefined();
   });
-  describe('acceptPropose', () => {
+  describe('El usuario puede aceptar la propuesta de trabajo', () => {
     const propose = new AcceptPropose();
     propose.id_mensaje = 1;
     it('acceptPropose works well', async () => {
@@ -58,7 +58,7 @@ describe('CategoryService', () => {
         data: expect.any(Object),
       });
     });
-    it('Should be fail', async () => {
+    it('Ocurre un error al crear el trabajo', async () => {
       workRepository.create.mockReturnValue(
         new Trabajo({
           id: 1,
@@ -77,7 +77,7 @@ describe('CategoryService', () => {
       expect(res).toBeInstanceOf(Error);
       expect(res.response).toEqual({ status: 400, error: 'Trabajo no existe' });
     });
-    it('Work with status "En proceso', async () => {
+    it('Se cancela un trabajo con estado "En proceso', async () => {
       workRepository.findOne.mockReturnValue(
         new Trabajo({ trb_estado: 'En proceso' as Estado }),
       );
@@ -88,7 +88,7 @@ describe('CategoryService', () => {
         error: 'No es posible cancelar trabajo',
       });
     });
-    it('Should be works well', async () => {
+    it('El usuario debería poder cancelar un trabajo', async () => {
       workRepository.findOne.mockReturnValue(
         new Trabajo({ trb_estado: 'Contratado' as Estado, save: jest.fn() }),
       );
@@ -98,13 +98,13 @@ describe('CategoryService', () => {
   });
   describe('updateStatus', () => {
     const update = new UpdateWork();
-    it('Should be throw an error', async () => {
+    it('Se actualiza un trabajo que no existe', async () => {
       workRepository.findOne.mockReturnValue(undefined);
       const res = await service.updateStatus(1, update);
       expect(res).toBeInstanceOf(Error);
       expect(res.response).toEqual({ status: 400, error: 'Trabajo no existe' });
     });
-    it('Update without arguments was successful', async () => {
+    it('Actualizar el estado de trabajo sin ningún cambio', async () => {
       workRepository.findOne.mockReturnValue({
         ...update,
         save: jest.fn(),
@@ -115,7 +115,7 @@ describe('CategoryService', () => {
         data: expect.any(Object),
       });
     });
-    it('Update with arguments was successful', async () => {
+    it('Actualizar el estado del trabajo', async () => {
       update.id_pago = 1;
       update.trb_cancelado = true;
       update.trb_estado = 'Finalizado' as Estado;

@@ -17,7 +17,7 @@ type MockRepository<T = any> = Partial<
   Record<keyof Repository<Pago>, jest.Mock>
 >;
 
-describe('UsersService', () => {
+describe('PayService', () => {
   let service: PayService;
   let payRepository: MockRepository<Pago>;
   let workRepository: MockRepository<Trabajo>;
@@ -26,7 +26,7 @@ describe('UsersService', () => {
       providers: [
         PayService,
         {
-          provide: getRepositoryToken(Pago), // User Entity의 Repository Token
+          provide: getRepositoryToken(Pago),
           useValue: mockRepository(),
         },
         {
@@ -39,10 +39,10 @@ describe('UsersService', () => {
     payRepository = module.get(getRepositoryToken(Pago));
     workRepository = module.get(getRepositoryToken(Trabajo));
   });
-  it('be defined', () => {
+  it('Debería ser definido', () => {
     expect(service).toBeDefined();
   });
-  describe('createAccount', () => {
+  describe('función payServiceNow', () => {
     const culqi = new Culqi({
       privateKey: process.env.SK_CULQI,
       publicKey: process.env.PK_CULQI,
@@ -73,7 +73,7 @@ describe('UsersService', () => {
       };
       return data;
     };
-    it('PayService', async () => {
+    it('El pago se realiza correctamente', async () => {
       const token = culqi.tokens.createToken({
         card_number: '371212121212122',
         cvv: '2841',

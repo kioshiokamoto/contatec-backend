@@ -34,7 +34,7 @@ describe('CategoryService', () => {
       providers: [
         CategoryService,
         {
-          provide: getRepositoryToken(Categoria), // User Entity의 Repository Token
+          provide: getRepositoryToken(Categoria),
           useValue: mockRepository(),
         },
       ],
@@ -48,12 +48,12 @@ describe('CategoryService', () => {
   });
 
   describe('createCategory', () => {
-    it('Falla si el producto existe', async () => {
+    it('Falla si la categoría existe', async () => {
       categoryRepository.findOne.mockResolvedValue({ cat_nombre: 'categoria' });
       const result = await service.createCategory(createCategoryArgs);
       expect(result.status).toEqual(400);
     });
-    it('Crea el nuevo producto', async () => {
+    it('Crea la nueva categoría', async () => {
       categoryRepository.findOne.mockResolvedValue(undefined);
       categoryRepository.create.mockReturnValue(createCategoryArgs);
       const result = await service.createCategory(createCategoryArgs);
@@ -70,7 +70,7 @@ describe('CategoryService', () => {
       const result = await service.getAllCategories();
       expect(result).toBeInstanceOf(Error);
     });
-    it('Retorna el producto', async () => {
+    it('Retorna todas las categorias', async () => {
       categoryRepository.find.mockResolvedValue(listCategories);
       const result = await service.getAllCategories();
       expect(result).toEqual(listCategories);
@@ -82,7 +82,7 @@ describe('CategoryService', () => {
       const result = await service.getCategory(number);
       expect(result).toBeInstanceOf(Error);
     });
-    it('Retorna el producto', async () => {
+    it('Retorna la categoría', async () => {
       categoryRepository.findOne.mockResolvedValue(createCategoryArgs);
       const result = await service.getCategory(number);
       expect(result).toEqual(createCategoryArgs);
@@ -99,14 +99,14 @@ describe('CategoryService', () => {
         ),
       );
     });
-    it('Actualiza el producto', async () => {
+    it('Actualiza la categoría', async () => {
       categoryRepository.findOne.mockResolvedValue(createCategoryArgs);
       const result = await service.updateCategory(number, createCategoryArgs);
       expect(result).toEqual({
         message: 'Categoría a sido actualizada',
       });
     });
-    it('Actualiza el producto sin hacer cambios', async () => {
+    it('Actualiza la categoría sin hacer cambios', async () => {
       categoryRepository.findOne.mockResolvedValue(createCategoryArgs);
       const result = await service.updateCategory(
         number,
@@ -128,7 +128,7 @@ describe('CategoryService', () => {
         ),
       );
     });
-    it('Actualiza el producto', async () => {
+    it('Actualiza la categoría', async () => {
       categoryRepository.findOne.mockResolvedValue(createCategoryArgs);
       categoryRepository.delete.mockResolvedValue(undefined);
       const result = await service.deleteCategory(number);
