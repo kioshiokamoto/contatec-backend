@@ -15,7 +15,7 @@ type MockRepository<T = any> = Partial<
   Record<keyof Repository<Review>, jest.Mock>
 >;
 
-describe('CategoryService', () => {
+describe('ReviewService', () => {
   let service: ReviewService;
   let reviewRepository: MockRepository<Review>;
   beforeEach(async () => {
@@ -39,10 +39,10 @@ describe('CategoryService', () => {
     service = module.get<ReviewService>(ReviewService);
     reviewRepository = module.get(getRepositoryToken(Review));
   });
-  it('be defined', () => {
+  it('Debería ser definido', () => {
     expect(service).toBeDefined();
   });
-  describe('createPost', () => {
+  describe('createReview', () => {
     const createreview = new CreateReview();
     createreview.rw_comentario = 'comment';
     createreview.rw_idPost = 1;
@@ -54,7 +54,7 @@ describe('CategoryService', () => {
         name: 'name',
       },
     };
-    it('createReview with comments', async () => {
+    it('El usuario califica con un comentario', async () => {
       reviewRepository.create.mockImplementationOnce((data) => {
         review = new Review({
           ...data,
@@ -72,7 +72,7 @@ describe('CategoryService', () => {
         },
       });
     });
-    it('createReview without comments', async () => {
+    it('El usuario califica sin ningún comentario', async () => {
       review = new Review({});
       createreview.rw_comentario = undefined;
       reviewRepository.create.mockReturnValue(
@@ -88,7 +88,7 @@ describe('CategoryService', () => {
         },
       });
     });
-    it('Should be throw an error', async () => {
+    it('Ocurre un error durante la creación de la review', async () => {
       reviewRepository.create.mockReturnValue(
         new Review({
           save: jest

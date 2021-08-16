@@ -332,22 +332,22 @@ export class UserService {
   }
 }
 
-function createActivationToken(payload) {
+export function createActivationToken(payload) {
   return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
     expiresIn: '15m',
   });
 }
-function createAccessToken(payload) {
+export function createAccessToken(payload) {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '30m',
   });
 }
-function createRefreshToken(payload) {
+export function createRefreshToken(payload) {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: '7d',
   });
 }
-function setUserCookies(time: any, res: any, refresh_token: any) {
+export function setUserCookies(time: any, res: any, refresh_token: any) {
   res.cookie('refreshtoken', refresh_token, {
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,

@@ -8,7 +8,9 @@ import { MessageService } from './message.service';
 import Usuario from '../../entity/usuario.entity';
 import Mensaje from '../../entity/mensaje.entity';
 
-const mockRepository = () => ({});
+const mockRepository = () => ({
+  findOne: jest.fn(),
+});
 type MockRepository<T = any> = Partial<
   Record<keyof Repository<Mensaje>, jest.Mock>
 >;
@@ -27,9 +29,10 @@ class Mock {
   }
 }
 
-describe('CategoryService', () => {
+describe('MessageService', () => {
   let service: MessageService;
-  let categoryRepository: MockRepository<Mensaje>;
+  let messageRepository: MockRepository<Mensaje>;
+  let userRepository: MockRepository<Usuario>;
   let mock: Mock;
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -46,9 +49,10 @@ describe('CategoryService', () => {
       ],
     }).compile();
     service = module.get<MessageService>(MessageService);
-    categoryRepository = module.get(getRepositoryToken(Mensaje));
+    messageRepository = module.get(getRepositoryToken(Mensaje));
+    userRepository = module.get(getRepositoryToken(Usuario));
   });
-  it('be defined', () => {
+  it('Debería ser definido', () => {
     expect(service).toBeDefined();
   });
   it('Debería retornar todos los mensajes', async () => {
@@ -65,7 +69,7 @@ describe('CategoryService', () => {
     expect(res).toStrictEqual([]);
     afterEach(() => mock.close());
   });
-  it('Debería retornar todos los mensajes de un usuariode una persona seleccionada', async () => {
+  it('Debería retornar todos los mensajes de un usuario de una persona seleccionada', async () => {
     const req = {
       user: {
         id: 1,
@@ -73,8 +77,15 @@ describe('CategoryService', () => {
       },
     };
     const fakeManager = createStubInstance(typeorm.EntityManager);
-    fakeManager.query.resolves([]);
+    fakeManager.query.resolves({});
+    userRepository.findOne.mockReturnValue(
+      new Usuario({
+        us_correo: 'any@example.com',
+        us_apellido: 'lastname',
+        avatar: 'avatar11.com',
+      }),
+    );
     const res = await service.getAllMessagesWith(req, 11);
-    expect(res).toStrictEqual([]);
+    expect(res).toBeInstanceOf(Object);
   });
 });

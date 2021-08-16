@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { classToPlain } from 'class-transformer';
 import {
   BaseEntity,

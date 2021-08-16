@@ -57,7 +57,7 @@ describe('CategoryService', () => {
     service = module.get<PostService>(PostService);
     postRepository = module.get(getRepositoryToken(Post));
   });
-  it('be defined', () => {
+  it('Debería ser definido', () => {
     expect(service).toBeDefined();
   });
 
@@ -77,7 +77,7 @@ describe('CategoryService', () => {
         id: 1,
       },
     };
-    it('createPost', async () => {
+    it('El usuario debe crear el post', async () => {
       postRepository.create.mockReturnValue({
         save: jest.fn(() => savepost),
       });
@@ -91,7 +91,7 @@ describe('CategoryService', () => {
         },
       });
     });
-    it('Should be throw an error', async () => {
+    it('Debería generar un error al guardar el post', async () => {
       postRepository.create.mockReturnValue({
         save: jest.fn(() => {
           throw new Error('No se pudo guardar el post');
@@ -101,7 +101,7 @@ describe('CategoryService', () => {
       expect(res).toBeInstanceOf(Error);
       expect(res.message).toEqual('No se pudo guardar el post');
     });
-    it('Algolia throws an error', async () => {
+    it('Debería algolia generar un error ', async () => {
       postRepository.create.mockReturnValue({
         save: jest.fn(() => savepost),
       });
@@ -124,12 +124,12 @@ describe('CategoryService', () => {
     });
   });
   describe('getAllPost', () => {
-    it('getAllPost success', async () => {
+    it('Debería retornar todos los post', async () => {
       postRepository.find.mockReturnValue([new Post({})]);
       const res = await service.getAllPost();
       expect(res).toEqual([expect.any(Post)]);
     });
-    it('Should be throw an error', async () => {
+    it('El usuario debería obtener todos los posts', async () => {
       postRepository.find.mockRejectedValue(
         new Error('No se pudo obtener todos los posts'),
       );
@@ -139,7 +139,7 @@ describe('CategoryService', () => {
     });
   });
   describe('getExplorePosts', () => {
-    it('getExplorePosts success', async () => {
+    it('El usuario debería visualizar los posts', async () => {
       query['getMany'] = jest.fn().mockReturnValue([new Post({})]);
       postRepository.createQueryBuilder.mockReturnValue(query);
       const res = await service.getExplorePosts();
@@ -149,7 +149,7 @@ describe('CategoryService', () => {
         interestingPosts: [expect.any(Post)],
       });
     });
-    it('getExplorePosts fail', async () => {
+    it('El usuario no visualiza todos los posts', async () => {
       query['getMany'] = jest
         .fn()
         .mockRejectedValue(new Error('Error al extraer posts'));
@@ -160,12 +160,12 @@ describe('CategoryService', () => {
     });
   });
   describe('getPost', () => {
-    it('getPost success', async () => {
+    it('El usuario visualiza el post', async () => {
       postRepository.findOne.mockReturnValue(new Post({}));
       const res = await service.getPost(1);
       expect(res).toEqual(expect.any(Post));
     });
-    it('getPost fail with undefined value', async () => {
+    it('El usuario no debe ver un post no existente', async () => {
       postRepository.findOne.mockReturnValue(undefined);
       const res = await service.getPost(1);
       expect(res).toBeInstanceOf(HttpException);
@@ -174,7 +174,7 @@ describe('CategoryService', () => {
         error: 'No se encontró post',
       });
     });
-    it('getPost fail', async () => {
+    it('El usuario no puede visualizar el post', async () => {
       postRepository.findOne.mockRejectedValue(
         new Error('Error al extraer un post'),
       );
@@ -188,7 +188,7 @@ describe('CategoryService', () => {
     const searchPost2 = new SearchPostDto();
     searchPost2.categoria_post = 'category';
     searchPost2.nombre_post = 'name';
-    it('Petición inválida', async () => {
+    it('El usuario no puede buscar un post', async () => {
       const res = await service.searchPost(searchPost);
       expect(res).toBeInstanceOf(HttpException);
       expect(res.response).toEqual({
@@ -196,7 +196,7 @@ describe('CategoryService', () => {
         error: 'Petición inválida',
       });
     });
-    it('Only nombre_post exists', async () => {
+    it('El usuario debería buscar un post por nombre', async () => {
       searchPost.nombre_post = 'name';
       query['getOne'] = jest.fn().mockReturnValue(postgetOne);
       jest.spyOn(typeorm, 'getRepository').mockImplementation(() => {
@@ -215,7 +215,7 @@ describe('CategoryService', () => {
         },
       });
     });
-    it('Only categoria_post exists', async () => {
+    it('El usuario debería buscar un post por categoría', async () => {
       searchPost.nombre_post = undefined;
       searchPost.categoria_post = 'category';
       query['getOne'] = jest.fn().mockReturnValue(postgetOne);
@@ -228,7 +228,7 @@ describe('CategoryService', () => {
         },
       });
     });
-    it('Post does not exists', async () => {
+    it('El usuario debería buscar un post no existente', async () => {
       searchPost.nombre_post = 'name';
       query['getOne'] = jest.fn().mockReturnValue(undefined);
       const res = await service.searchPost(searchPost);
@@ -260,7 +260,7 @@ describe('CategoryService', () => {
         name: 'name',
       },
     };
-    it('Petición inválida', async () => {
+    it('El usuario realiza una petición inválida', async () => {
       postRepository.findOne.mockResolvedValue(undefined);
       const res = await service.updatePost(1, updatePost, req);
       expect(res).toBeInstanceOf(HttpException);
@@ -278,7 +278,7 @@ describe('CategoryService', () => {
         error: 'Post no pertenece a usuario',
       });
     });
-    it('Update post was successfully', async () => {
+    it('El usuario debería poder actualizar un post', async () => {
       const reqYes = {
         user: {
           id: 10,
@@ -302,7 +302,7 @@ describe('CategoryService', () => {
         },
       });
     });
-    it('Update post was successfully without any changes', async () => {
+    it('El usuario actualiza un post sin realizar cambios', async () => {
       const reqYes = {
         user: {
           id: 10,
@@ -330,7 +330,7 @@ describe('CategoryService', () => {
     });
   });
   describe('deletePost', () => {
-    it('Usuario ya existe', async () => {
+    it('El usuario realiza una petición inválida', async () => {
       postRepository.findOne.mockResolvedValue(undefined);
       const res = await service.deletePost(1);
       expect(res).toBeInstanceOf(HttpException);
@@ -339,7 +339,7 @@ describe('CategoryService', () => {
         error: 'Usuario ya existe',
       });
     });
-    it('Post no pertenece a usuario', async () => {
+    it('El usuario debería poder eliminar un post', async () => {
       postRepository.findOne.mockResolvedValue(new Post({}));
       postRepository.delete.mockResolvedValue({});
       const res = await service.deletePost(1);

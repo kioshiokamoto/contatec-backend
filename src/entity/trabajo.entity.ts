@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Estado } from '../modules/work/enum/estado';
 import {
   Column,
