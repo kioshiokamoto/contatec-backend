@@ -28,6 +28,9 @@ export default class Mensaje extends Entity {
   @Column({ default: null })
   msj_descripcion_prop: string;
 
+  @Column({ default: null })
+  msj_nombre_propuesta: string;
+
   @Column({
     nullable: false,
     default: () => 'CURRENT_TIMESTAMP',

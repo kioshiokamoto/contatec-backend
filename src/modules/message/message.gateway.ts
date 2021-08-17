@@ -102,12 +102,14 @@ export class MessageGateway
   async handleMessageProposal(client: any, payload: any): Promise<void> {
     //Envia mensaje hacia destino payload.data y hacia si mismo
     console.log(payload);
+    // falta payload.data.fechaLimite
     const newPropose = this.mensajeRepository.create({
-      msj_contenido: payload.descripcion,
+      msj_contenido: payload.data.descripcion,
       msj_rol: 'Propuesta' as Estado,
       msj_user_from: payload.from,
       msj_user_to: payload.to,
-      // msj_idPost_propuesta: payload.post,
+      msj_nombre_propuesta: payload.data.nombre,
+      msj_idPost_propuesta: payload.data.postId,
       msj_precio_prop: payload.data.presupuesto,
       msj_descripcion_prop: payload.data.servicio,
       msj_caducidad_prop: add(new Date(), { minutes: 15 }),
@@ -131,6 +133,7 @@ export class MessageGateway
         msj_contenido: newProposeSaved.msj_contenido,
         msjUserFromId: newProposeSaved.msj_user_from,
         msjUserToId: newProposeSaved.msj_user_to,
+        msj_nombre_propuesta: newProposeSaved.msj_nombre_propuesta,
         msj_precio_prop: newProposeSaved.msj_precio_prop,
         msj_descripcion_prop: newProposeSaved.msj_descripcion_prop,
         msg_caducidad_prop: newProposeSaved.msj_caducidad_prop,
@@ -144,6 +147,7 @@ export class MessageGateway
         msj_contenido: newProposeSaved.msj_contenido,
         msjUserFromId: newProposeSaved.msj_user_from,
         msjUserToId: newProposeSaved.msj_user_to,
+        msj_nombre_propuesta: newProposeSaved.msj_nombre_propuesta,
         msj_precio_prop: newProposeSaved.msj_precio_prop,
         msj_descripcion_prop: newProposeSaved.msj_descripcion_prop,
         msg_caducidad_prop: newProposeSaved.msj_caducidad_prop,
