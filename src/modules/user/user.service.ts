@@ -299,7 +299,7 @@ export class UserService {
         `
           SELECT
               T.id as trb_ID, T.createdAt as trb_createdAt, T.updatedAt as trb_updatedAt, T.trb_cancelado as trb_cancelado, T.id_pago as trb_idPago, T.id_mensaje as trb_idMensaje, T.trb_estado as trb_estado,
-              M.id as msj_id ,M.msj_precio_prop as msj_precio_prop,M.msj_contenido as msj_contenido,M.msj_descripcion_prop as msj_descripcion_prop, M.msjIdPostPropuestaId as msjIdPostPropuestaId, M.msj_nombre_propuesta as msj_nombre_propuesta, M.msjUserFromId as msj_user_from, M.msjUserToId as msj_user_to
+              M.id as msj_id ,M.msj_precio_prop as msj_precio_prop,M.msj_contenido as msj_contenido,M.msj_descripcion_prop as msj_descripcion_prop, M.msjIdPostPropuestaId as msjIdPostPropuestaId, M.msj_nombre_propuesta as msj_nombre_propuesta, M.msjUserFromId as msj_user_from, M.msjUserToId as msj_user_to,
               CASE WHEN U.id=M.msjUserFromId THEN 1 ELSE 0 END provider
           FROM mensaje M
               INNER JOIN trabajo T ON(M.id=T.id_mensaje)
