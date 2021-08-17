@@ -53,6 +53,7 @@ export class MessageService {
           msj_descripcion_prop,
           msj_caducidad_prop,
           msjIdPostPropuestaId,
+          msj_nombre_propuesta,
           msj_rol
       FROM mensaje M
       WHERE (msjUserFromId in(${id},${idUsuario}) and msjUserToId in (${idUsuario},${id}) )
