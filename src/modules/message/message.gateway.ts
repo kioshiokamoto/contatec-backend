@@ -77,18 +77,6 @@ export class MessageGateway
       this.logger.log('Cliente que emite: ' + payload.from);
       this.logger.log('Usuario que recibe: ' + payload.to);
 
-      // .to(client.userId)
-      // this.server
-      //   .to(payload.to)
-      //   .to(payload.from)
-      //   .emit('messageDefaultResponse', {
-      //     data: {
-      //       createdAt: newMessageSaved.createdAt,
-      //       msjUserFromId: newMessageSaved.msj_user_from,
-      //       msjUserToId: newMessageSaved.msj_user_to,
-      //       msj_contenido: newMessageSaved.msj_contenido,
-      //     },
-      //   });
       this.server.to(payload.to).emit('messageDefaultResponse', {
         data: {
           createdAt: newMessageSaved.createdAt,
@@ -115,20 +103,33 @@ export class MessageGateway
     //Envia mensaje hacia destino payload.data y hacia si mismo
     console.log(payload);
     const newPropose = this.mensajeRepository.create({
-      msj_contenido: payload.data,
+      msj_contenido: payload.descripcion,
       msj_rol: 'Propuesta' as Estado,
       msj_user_from: payload.from,
       msj_user_to: payload.to,
-      msj_idPost_propuesta: payload.post,
-      msj_precio_prop: 100,
-      msj_descripcion_prop: 'Se construye software',
+      // msj_idPost_propuesta: payload.post,
+      msj_precio_prop: payload.data.presupuesto,
+      msj_descripcion_prop: payload.data.servicio,
       msj_caducidad_prop: add(new Date(), { minutes: 15 }),
     });
+
     const newProposeSaved = await newPropose.save();
+
+    this.logger.log('Cliente que emite - client.userId: ' + client.userId);
+    this.logger.log('Cliente que emite: ' + payload.from);
+    this.logger.log('Usuario que recibe: ' + payload.to);
+
+    // this.server
+    //   .to(payload.to)
+    //   .to(client.userId)
+    //   .emit('messageProposeResponse', { data: payload.data });
+
     this.server
       .to(payload.to)
-      .to(client.userId)
-      .emit('messagePropose', { data: payload.data });
+      .emit('messageProposeResponse', { data: payload.data });
+    this.server
+      .to(payload.from)
+      .emit('messageProposeResponse', { data: payload.data });
   }
 
   @SubscribeMessage('acceptPropose')
