@@ -6,7 +6,7 @@ import { google } from 'googleapis';
 import * as jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 import Usuario from '../../entity/usuario.entity';
 import sendEmail from '../../utils/sendMail';
 import {
@@ -293,7 +293,24 @@ export class UserService {
         { id: req.user.id },
         { relations: ['posts', 'posts.pstCategoriaId'] },
       );
-      return user;
+      const entityManager = getManager();
+      const data = await entityManager.query(
+        `
+          SELECT
+              T.id as trb_ID, T.createdAt as trb_createdAt, T.updatedAt as trb_updatedAt, T.trb_cancelado as trb_cancelado, T.id_pago as trb_idPago, T.id_mensaje as trb_idMensaje, T.trb_estado as trb_estado,
+              M.id as msj_id ,M.msj_precio_prop as msj_precio_prop,M.msj_contenido as msj_contenido,M.msj_descripcion_prop as msj_descripcion_prop, M.msjIdPostPropuestaId as msjIdPostPropuestaId,
+              CASE WHEN U.id=M.msjUserFromId THEN 1 ELSE 0 END provider
+          FROM mensaje M
+              INNER JOIN trabajo T ON(M.id=T.id_mensaje)
+              INNER JOIN usuario U ON(U.id in (M.msjUserFromId,M.msjUserToId))
+          WHERE U.id=${req.user.id};
+        `,
+      );
+      console.log(data)
+      return {
+        user,
+        data,
+      };
     } catch (error) {
       return error;
     }
