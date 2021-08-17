@@ -43,6 +43,7 @@ export class MessageService {
     const entityManager = getManager();
     const data = await entityManager.query(`
       SELECT
+          id,
           createdAt,
           msj_contenido,
           msjIdPostPropuestaId,
