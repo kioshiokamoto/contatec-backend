@@ -124,12 +124,30 @@ export class MessageGateway
     //   .to(client.userId)
     //   .emit('messageProposeResponse', { data: payload.data });
 
-    this.server
-      .to(payload.to)
-      .emit('messageProposeResponse', { data: payload.data });
-    this.server
-      .to(payload.from)
-      .emit('messageProposeResponse', { data: payload.data });
+    this.server.to(payload.to).emit('messageProposeResponse', {
+      data: {
+        createdAt: newProposeSaved.createdAt,
+        msj_contenido: newProposeSaved.msj_contenido,
+        msjUserFromId: newProposeSaved.msj_user_from,
+        msjUserToId: newProposeSaved.msj_user_to,
+        msj_precio_prop: newProposeSaved.msj_precio_prop,
+        msj_descripcion_prop: newProposeSaved.msj_descripcion_prop,
+        msg_caducidad_prop: newProposeSaved.msj_caducidad_prop,
+        msjIdPostPropuestaId: newProposeSaved.msj_idPost_propuesta,
+      },
+    });
+    this.server.to(payload.from).emit('messageProposeResponse', {
+      data: {
+        createdAt: newProposeSaved.createdAt,
+        msj_contenido: newProposeSaved.msj_contenido,
+        msjUserFromId: newProposeSaved.msj_user_from,
+        msjUserToId: newProposeSaved.msj_user_to,
+        msj_precio_prop: newProposeSaved.msj_precio_prop,
+        msj_descripcion_prop: newProposeSaved.msj_descripcion_prop,
+        msg_caducidad_prop: newProposeSaved.msj_caducidad_prop,
+        msjIdPostPropuestaId: newProposeSaved.msj_idPost_propuesta,
+      },
+    });
   }
 
   @SubscribeMessage('acceptPropose')

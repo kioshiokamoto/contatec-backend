@@ -43,11 +43,16 @@ export class MessageService {
     const entityManager = getManager();
     const data = await entityManager.query(`
       SELECT
-          M.createdAt,
+          createdAt,
           msj_contenido,
           msjIdPostPropuestaId,
           msjUserFromId,
-          msjUserToId
+          msjUserToId,
+          msj_precio_prop,
+          msj_descripcion_prop,
+          msg_caducidad_prop,
+          msjIdPostPropuestaId,
+          msj_rol
       FROM mensaje M
       WHERE (msjUserFromId in(${id},${idUsuario}) and msjUserToId in (${idUsuario},${id}) )
       ORDER BY M.createdAt DESC
