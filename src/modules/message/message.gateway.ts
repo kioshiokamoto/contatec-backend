@@ -157,9 +157,12 @@ export class MessageGateway
     console.log(payload);
     // Envia notificacion de `Acepto/Aceptaron la propuesta` hacia cliente y proveedor
     //Envia mensaje hacia destino payload.data y hacia si mismo
-    this.server
-      .to(payload.to)
-      .to(client.userId)
-      .emit('acceptYourPropose', { data: payload.data });
+
+    this.server.to(payload.to).emit('acceptYourPropose', payload);
+
+    // this.server
+    //   .to(payload.to)
+    //   .to(client.userId)
+    //   .emit('acceptYourPropose', { data: payload.data });
   }
 }
