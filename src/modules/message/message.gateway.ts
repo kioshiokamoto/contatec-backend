@@ -136,7 +136,7 @@ export class MessageGateway
         msj_nombre_propuesta: newProposeSaved.msj_nombre_propuesta,
         msj_precio_prop: newProposeSaved.msj_precio_prop,
         msj_descripcion_prop: newProposeSaved.msj_descripcion_prop,
-        msg_caducidad_prop: newProposeSaved.msj_caducidad_prop,
+        msj_caducidad_prop: newProposeSaved.msj_caducidad_prop,
         msjIdPostPropuestaId: newProposeSaved.msj_idPost_propuesta,
       },
     });
@@ -150,7 +150,7 @@ export class MessageGateway
         msj_nombre_propuesta: newProposeSaved.msj_nombre_propuesta,
         msj_precio_prop: newProposeSaved.msj_precio_prop,
         msj_descripcion_prop: newProposeSaved.msj_descripcion_prop,
-        msg_caducidad_prop: newProposeSaved.msj_caducidad_prop,
+        msj_caducidad_prop: newProposeSaved.msj_caducidad_prop,
         msjIdPostPropuestaId: newProposeSaved.msj_idPost_propuesta,
       },
     });
