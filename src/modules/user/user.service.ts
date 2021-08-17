@@ -306,7 +306,7 @@ export class UserService {
           WHERE U.id=${req.user.id};
         `,
       );
-      console.log(data)
+      // console.log(data);
       return {
         user,
         data,
