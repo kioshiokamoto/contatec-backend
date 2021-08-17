@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Patch, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiHeader,
@@ -84,6 +93,13 @@ export class UserController {
   @ApiBearerAuth('Authorization')
   getUserInfo(@Req() req: Request) {
     return this.userService.getUserInfo(req);
+  }
+
+  @Get('/info/:id')
+  @ApiOperation({ summary: 'Obtener información de usuario por id' })
+  @ApiBearerAuth('Authorization')
+  getUserInfoById(@Req() req: Request, @Param() param: number) {
+    return this.userService.getUserInfoById(req, param);
   }
 
   @Patch('/update')

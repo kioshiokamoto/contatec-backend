@@ -287,6 +287,7 @@ export class UserService {
       res.status(error.status).json(error);
     }
   }
+
   async getUserInfo(req: any) {
     try {
       const user = await this.usuariosRepository.findOne(
@@ -315,6 +316,15 @@ export class UserService {
       return error;
     }
   }
+  async getUserInfoById(req: any, param: number) {
+    try {
+      const user = await this.usuariosRepository.findOne({ id: param });
+      return user;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async updateUser(dto: UpdateUserDto, req: any) {
     try {
       const { us_nombre, us_apellido, avatar, password } = dto;
