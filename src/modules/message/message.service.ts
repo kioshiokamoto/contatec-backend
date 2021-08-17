@@ -50,7 +50,7 @@ export class MessageService {
           msjUserToId,
           msj_precio_prop,
           msj_descripcion_prop,
-          msg_caducidad_prop,
+          msj_caducidad_prop,
           msjIdPostPropuestaId,
           msj_rol
       FROM mensaje M
