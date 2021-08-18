@@ -318,7 +318,9 @@ export class UserService {
   }
   async getUserInfoById(req: any, param: number) {
     try {
+      console.log(param);
       const user = await this.usuariosRepository.findOne({ id: param });
+      console.log(user);
       return user;
     } catch (error) {
       return error;
