@@ -98,7 +98,7 @@ export class UserController {
   @Get('/info/:id')
   @ApiOperation({ summary: 'Obtener información de usuario por id' })
   @ApiBearerAuth('Authorization')
-  getUserInfoById(@Req() req: Request, @Param() param: number) {
+  getUserInfoById(@Req() req: Request, @Param('id') param: number) {
     return this.userService.getUserInfoById(req, param);
   }
 
