@@ -23,17 +23,17 @@ export default class Pago extends Entity {
   @Column()
   pgo_apellido: string;
 
-  @Column()
-  pgo_dni: string;
+  // @Column()
+  // pgo_dni: string;
 
-  @Column()
-  pgo_direccion: string;
+  // @Column()
+  // pgo_direccion: string;
 
   @Column()
   pgo_monto: number;
 
-  @Column()
-  pgo_telefono: string;
+  // @Column()
+  // pgo_telefono: string;
 
   @Column()
   pgo_token: string;

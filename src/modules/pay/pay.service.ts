@@ -34,11 +34,8 @@ export class PayService {
       console.log(charge.id);
 
       const pago = this.pagoRepository.create({
-        pgo_dni: payServiceNowDto.pgo_dni,
         pgo_apellido: payServiceNowDto.pgo_apellido,
         pgo_nombre: payServiceNowDto.pgo_nombre,
-        pgo_direccion: payServiceNowDto.pgo_direccion,
-        pgo_telefono: payServiceNowDto.pgo_telefono,
         pgo_monto: payServiceNowDto.pgo_monto,
         pgo_token: charge.id,
         pgo_usuarioId: userPago,
@@ -53,6 +50,7 @@ export class PayService {
       actualizarPost.trb_pago = newPago.id;
       actualizarPost.trb_estado = 'En proceso' as Estado;
       actualizarPost.trb_cancelado = true;
+      //Verificar que el updateAt se cambia
 
       await actualizarPost.save();
 
