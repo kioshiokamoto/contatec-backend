@@ -174,11 +174,17 @@ export class PostService {
       `);
       const scoreReviews = await entityManager.query(`
         SELECT ROUND(AVG(R.rw_score),1) score_average,
+            COUNT(*) score_count,
             COUNT(IF(R.rw_score = 1 , 1, null)) AS score_one,
             COUNT(IF(R.rw_score = 2 , 1, null)) AS score_two,
             COUNT(IF(R.rw_score = 3 , 1, null)) AS score_three,
             COUNT(IF(R.rw_score = 4 , 1, null)) AS score_four,
-            COUNT(IF(R.rw_score = 5 , 1, null)) AS score_five
+            COUNT(IF(R.rw_score = 5 , 1, null)) AS score_five,
+            ROUND((COUNT(IF(R.rw_score = 1 , 1, null))/COUNT(*))*100,0) as score_one_percent,
+            ROUND((COUNT(IF(R.rw_score = 2 , 1, null))/COUNT(*))*100,0) as score_two_percent,
+            ROUND((COUNT(IF(R.rw_score = 3 , 1, null))/COUNT(*))*100,0) as score_three_percent,
+            ROUND((COUNT(IF(R.rw_score = 4 , 1, null))/COUNT(*))*100,0) as score_four_percent,
+            ROUND((COUNT(IF(R.rw_score = 5 , 1, null))/COUNT(*))*100,0) as score_five_percent
         FROM review R
             INNER JOIN post P ON(R.id_post=P.id)
         WHERE P.id=${id}
