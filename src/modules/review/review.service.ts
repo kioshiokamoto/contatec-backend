@@ -19,7 +19,8 @@ export class ReviewService {
 
   async createReview(createReviewDto: CreateReview, req: any) {
     try {
-      const { rw_score, rw_idPost, rw_comentario } = createReviewDto;
+      const { rw_score, rw_idPost, rw_comentario, rw_idTrabajo } =
+        createReviewDto;
       const usuario = req.user.id;
       const comentario = rw_comentario ? rw_comentario : '';
 
@@ -28,6 +29,7 @@ export class ReviewService {
         rw_comentario: comentario,
         rw_idUsuario: usuario,
         rw_idPost,
+        rw_idTrabajo,
       });
       const savedReview = await review.save();
 

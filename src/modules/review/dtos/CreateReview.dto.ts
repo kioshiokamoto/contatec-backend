@@ -35,4 +35,12 @@ export class CreateReview {
   })
   @IsNumber()
   rw_idPost: number;
+
+  @ApiProperty({
+    description: 'ID de trabajo a calificar',
+    example: 5,
+    type: Number,
+  })
+  @IsNumber()
+  rw_idTrabajo: number;
 }
