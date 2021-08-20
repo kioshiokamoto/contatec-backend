@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import algoliasearch from 'algoliasearch';
-import { getRepository, Repository } from 'typeorm';
+import { getManager, getRepository, Repository } from 'typeorm';
 import Categoria from '../../entity/categoria.entity';
 import Post from '../../entity/post.entity';
 import { slugify } from '../../utils/slugify';
@@ -160,7 +160,35 @@ export class PostService {
           HttpStatus.NOT_FOUND,
         );
       }
-      return post;
+
+      const entityManager = getManager();
+      const reviews = await entityManager.query(`
+        SELECT CONCAT(U.us_nombre,' ',U.us_apellido) as name,
+            U.avatar as avatar,
+            R.rw_score as score,
+            R.rw_comentario as comentary
+        FROM review R
+            INNER JOIN post P ON(R.id_post=P.id)
+            INNER JOIN usuario U ON(U.id=R.id_usuario)
+        WHERE P.id=${id};
+      `);
+      const scoreReviews = await entityManager.query(`
+        SELECT ROUND(AVG(R.rw_score),1) score_average,
+            COUNT(IF(R.rw_score = 1 , 1, null)) AS score_one,
+            COUNT(IF(R.rw_score = 2 , 1, null)) AS score_two,
+            COUNT(IF(R.rw_score = 3 , 1, null)) AS score_three,
+            COUNT(IF(R.rw_score = 4 , 1, null)) AS score_four,
+            COUNT(IF(R.rw_score = 5 , 1, null)) AS score_five
+        FROM review R
+            INNER JOIN post P ON(R.id_post=P.id)
+        WHERE P.id=295
+        GROUP BY R.id_post;
+      `);
+      return {
+        post,
+        reviews,
+        scoreReviews,
+      };
     } catch (error) {
       return error;
     }
