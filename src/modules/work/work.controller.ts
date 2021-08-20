@@ -24,7 +24,7 @@ export class WorkController {
     return this.workService.acceptPropose(acceptProposeDto);
   }
 
-  @Patch('/cancel')
+  @Patch('/cancel/:id')
   @ApiBearerAuth('Authorization')
   @ApiOperation({
     summary: 'Cancela propuesta de servicio',
@@ -33,7 +33,7 @@ export class WorkController {
     return this.workService.cancelWork(id);
   }
 
-  @Patch('/update-status')
+  @Patch('/update-status/:id')
   @ApiBearerAuth('Authorization')
   @ApiOperation({
     summary: 'Actualiza estado de negocio',
