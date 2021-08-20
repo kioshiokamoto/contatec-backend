@@ -181,7 +181,7 @@ export class PostService {
             COUNT(IF(R.rw_score = 5 , 1, null)) AS score_five
         FROM review R
             INNER JOIN post P ON(R.id_post=P.id)
-        WHERE P.id=295
+        WHERE P.id=${id}
         GROUP BY R.id_post;
       `);
       return {
