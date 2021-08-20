@@ -91,7 +91,7 @@ export class WorkService {
       if (id_pago) {
         work.trb_pago = id_pago;
       }
-      work.save();
+      await work.save();
 
       return {
         message: 'Se actualizó estado de trabajo correctamente ',
