@@ -101,7 +101,7 @@ export class MessageGateway
   @SubscribeMessage('messageProposal')
   async handleMessageProposal(client: any, payload: any): Promise<void> {
     //Envia mensaje hacia destino payload.data y hacia si mismo
-    console.log(payload);
+    // console.log(payload);
     // falta payload.data.fechaLimite
     const newPropose = this.mensajeRepository.create({
       msj_contenido: payload.data.descripcion,
@@ -162,7 +162,9 @@ export class MessageGateway
     // Envia notificacion de `Acepto/Aceptaron la propuesta` hacia cliente y proveedor
     //Envia mensaje hacia destino payload.data y hacia si mismo
 
-    this.server.to(payload.to).emit('acceptYourPropose', payload);
+    this.server
+      .to(payload.message.msjUserFromId)
+      .emit('acceptYourPropose', payload);
 
     // this.server
     //   .to(payload.to)
