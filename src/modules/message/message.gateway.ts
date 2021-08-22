@@ -128,7 +128,7 @@ export class MessageGateway
 
     this.server.to(payload.to).emit('messageProposeResponse', {
       data: {
-        idMensaje: newProposeSaved.id,
+        id: newProposeSaved.id,
         createdAt: newProposeSaved.createdAt,
         msj_contenido: newProposeSaved.msj_contenido,
         msjUserFromId: newProposeSaved.msj_user_from,
@@ -142,7 +142,7 @@ export class MessageGateway
     });
     this.server.to(payload.from).emit('messageProposeResponse', {
       data: {
-        idMensaje: newProposeSaved.id,
+        id: newProposeSaved.id,
         createdAt: newProposeSaved.createdAt,
         msj_contenido: newProposeSaved.msj_contenido,
         msjUserFromId: newProposeSaved.msj_user_from,
