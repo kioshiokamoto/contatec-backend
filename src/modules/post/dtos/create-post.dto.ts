@@ -26,7 +26,7 @@ export class CrearPostDTO extends BaseDto {
     type: String,
   })
   @IsString()
-  @Length(10, 255)
+  @Length(10, 250)
   pst_descripcion: string;
 
   @ApiProperty({
@@ -35,7 +35,7 @@ export class CrearPostDTO extends BaseDto {
     type: String,
   })
   @IsString()
-  @Length(10, 100)
+  @Length(10, 250)
   pst_descripcion_corta: string;
 
   @ApiProperty({
@@ -44,7 +44,7 @@ export class CrearPostDTO extends BaseDto {
     type: String,
   })
   @IsString()
-  @Length(10, 100)
+  @Length(10, 250)
   pst_nombre: string;
 
   @ApiProperty({
