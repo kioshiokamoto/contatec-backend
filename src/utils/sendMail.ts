@@ -41,7 +41,7 @@ const sendEmail = (to: any, url: string, txt: string) => {
   const mailOptions = {
     from: SENDER_EMAIL_ADDRESS,
     to,
-    subject: 'Registro Coredise',
+    subject: 'Servicio de Contatec',
     html: `
         <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%;">
         <h2 style="text-align: center; text-transform: uppercase;color: teal;">Bienvenido a Contatec</h2>
