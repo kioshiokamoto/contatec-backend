@@ -24,9 +24,15 @@ import { ReviewService } from './review.service';
 })
 export class ReviewModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes({
-      path: '/review/create',
-      method: RequestMethod.POST,
-    });
+    consumer.apply(AuthMiddleware).forRoutes(
+      {
+        path: '/review/create',
+        method: RequestMethod.POST,
+      },
+      {
+        path: '/review/update',
+        method: RequestMethod.POST,
+      },
+    );
   }
 }

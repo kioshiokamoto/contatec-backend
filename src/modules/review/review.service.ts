@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Post from '../../entity/post.entity';
 import Review from '../../entity/review.entity';
 import Trabajo from '../../entity/trabajo.entity';
-import { getConnection, Repository } from 'typeorm';
+import { getConnection, getManager, Repository } from 'typeorm';
 import { CreateReview } from './dtos';
 
 @Injectable()
@@ -50,8 +50,6 @@ export class ReviewService {
         createReviewDto;
       const usuario = req.user.id;
       const comentario = rw_comentario ? rw_comentario : '';
-
-      const findReview = await this.reviewRepository.delete({ rw_idTrabajo });
 
       await getConnection()
         .createQueryBuilder()

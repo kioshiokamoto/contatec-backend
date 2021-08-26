@@ -325,7 +325,6 @@ export class UserService {
         { id: param },
         { relations: ['posts', 'posts.pstCategoriaId'] },
       );
-      console.log(user);
       return user;
     } catch (error) {
       return error;
