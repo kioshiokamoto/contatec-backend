@@ -14,4 +14,11 @@ export class ReviewController {
   createReview(@Body() createReviewDto: CreateReview, @Req() req) {
     return this.reviewService.createReview(createReviewDto, req);
   }
+
+  @Post('/update')
+  @ApiBearerAuth('Authorization')
+  @ApiOperation({ summary: 'Actualiza review de un servicio' })
+  updateReview(@Body() createReviewDto: CreateReview, @Req() req) {
+    return this.reviewService.updateReview(createReviewDto, req);
+  }
 }
