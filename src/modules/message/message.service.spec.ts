@@ -49,7 +49,6 @@ describe('MessageService', () => {
       ],
     }).compile();
     service = module.get<MessageService>(MessageService);
-    messageRepository = module.get(getRepositoryToken(Mensaje));
     userRepository = module.get(getRepositoryToken(Usuario));
   });
   it('Debería ser definido', () => {

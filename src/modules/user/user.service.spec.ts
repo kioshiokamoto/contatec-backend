@@ -59,12 +59,6 @@ describe('UserService', () => {
     expect(service).toBeDefined();
   });
   describe('register', () => {
-    const userDto = {
-      password: '12345',
-      us_apellido: 'lastname',
-      us_correo: 'email@example.com',
-      us_nombre: 'name',
-    };
     const user = new Usuario({});
     it('Un usuario existente se registra', async () => {
       userRepository.findOne.mockReturnValue(user);

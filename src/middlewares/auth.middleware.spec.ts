@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import * as mocks from 'node-mocks-http';
 import { AuthMiddleware } from './auth.middleware';
 import * as jwt from 'jsonwebtoken';
@@ -18,7 +18,7 @@ describe('AuthMiddleware', () => {
     service = moduleRef.get(AuthMiddleware);
   });
   it('Debe matchear con snapshot', () => {
-    const demo = service.use(req, res, () => {
+    service.use(req, res, () => {
       return;
     });
     expect(service.use).toMatchSnapshot();
@@ -37,7 +37,7 @@ describe('AuthMiddleware', () => {
     req.headers = {
       authorization: `Bearer 1`,
     };
-    const abc = service.use(req, res, () => {
+    service.use(req, res, () => {
       return;
     });
     expect(res.statusCode).toEqual(400);
@@ -57,7 +57,7 @@ describe('AuthMiddleware', () => {
     req.headers = {
       authorization: `Bearer ${token}`,
     };
-    const abc = service.use(req, res, () => {
+    service.use(req, res, () => {
       return;
     });
     expect(req.user).toEqual({

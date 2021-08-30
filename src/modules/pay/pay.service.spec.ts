@@ -50,34 +50,34 @@ describe('PayService', () => {
     });
     const pago = new PayServiceNow();
     pago.pgo_apellido = 'Hendricks';
-    pago.pgo_correo = 'usuario1@domain.com';
+    pago.pgo_correo = 'usuario1@example.com';
     pago.pgo_direccion = 'direction';
     pago.pgo_dni = '12348765';
     pago.pgo_monto = 550;
     pago.pgo_nombre = 'Richard';
     pago.pgo_telefono = '505434800';
-    pago.pgo_trabajoId = 55;
+    pago.pgo_trabajoId = 56;
     const work = new Trabajo({
       save: jest.fn(),
     });
     const req = {
       user: {
         id: 12,
-        name: 'name',
+        name: 'nombre',
       },
     };
     const payFunction = (data: any) => {
       data['save'] = () => {
-        data['id'] = 55;
+        data['id'] = 56;
         return data;
       };
       return data;
     };
     it('El pago se realiza correctamente', async () => {
       const token = culqi.tokens.createToken({
-        card_number: '371212121212122',
-        cvv: '2841',
-        expiration_month: '11',
+        card_number: '5111111111111118',
+        cvv: '039',
+        expiration_month: '06',
         expiration_year: '2025',
         email: 'usuario1@domain.com',
       });
@@ -100,7 +100,7 @@ describe('PayService', () => {
       workRepository.findOne.mockResolvedValue(work);
       const result = await service.payServiceNow(pago, req);
       expect(result.merchant_message).toEqual(
-        'Tarjeta perdida. La tarjeta fue bloqueada y reportada al banco emisor como una tarjeta perdida.',
+        'La tarjeta del cliente ha excedido el numero maximo de intentos diario.',
       );
     });
   });
