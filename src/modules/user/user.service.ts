@@ -92,7 +92,6 @@ export class UserService {
         throw new HttpException('Contraseña errada', HttpStatus.FORBIDDEN);
       }
       const refresh_token = createRefreshToken({ id: user.id });
-      // console.log('refresh_token', refresh_token);
       res.setHeader('Access-Control-Allow-Credentials', 'true');
       res.setHeader(
         'Access-Control-Allow-Headers',
@@ -107,8 +106,6 @@ export class UserService {
   async getAccessToken(req: Request) {
     try {
       const rf_token = req.cookies.refreshtoken;
-      // console.log(req.cookies);
-      // console.log('rf_token', rf_token);
       if (!rf_token) {
         throw new HttpException(
           'Porfavor, inicia sesión ahora',
@@ -271,7 +268,6 @@ export class UserService {
 
   async logout(res: Response) {
     try {
-      // console.log(res.cookie);
       res.setHeader('Access-Control-Allow-Credentials', 'true');
       res.setHeader(
         'Access-Control-Allow-Headers',
@@ -310,7 +306,6 @@ export class UserService {
           ORDER BY T.createdAT;
         `,
       );
-      // console.log(data);
       return {
         user,
         data,

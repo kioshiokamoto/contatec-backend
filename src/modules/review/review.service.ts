@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { getConnection, Repository } from 'typeorm';
 import Post from '../../entity/post.entity';
 import Review from '../../entity/review.entity';
 import Trabajo from '../../entity/trabajo.entity';
-import { getConnection, getManager, Repository } from 'typeorm';
 import { CreateReview } from './dtos';
 
 @Injectable()

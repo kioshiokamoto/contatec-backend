@@ -32,8 +32,6 @@ export class PostService {
         pst_nombre,
       } = newpost;
       const array_pst_descripcion_incluye = pst_descripcion_incluye.join(',');
-      // console.log(req.user .id);
-      // console.log(req.user);
       const pst_idUsuario = req.user.id;
 
       // const check = await this.postRepository.findOne({ pst_descripcion });
@@ -291,7 +289,6 @@ export class PostService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      // console.log(id);
       if (post.pstUsuarioId.id !== req.user.id) {
         throw new HttpException(
           {

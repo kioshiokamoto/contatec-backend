@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
   DocumentBuilder,
@@ -6,12 +7,10 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
-import * as helmet from 'helmet';
-import * as rateLimit from 'express-rate-limit';
 import * as cookieParser from 'cookie-parser';
+import * as rateLimit from 'express-rate-limit';
+import * as helmet from 'helmet';
 import { AppModule } from './modules/app.module';
-import { ValidationPipe } from '@nestjs/common';
-import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(

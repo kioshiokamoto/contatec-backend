@@ -39,7 +39,6 @@ export class MessageGateway
   }
   handleDisconnect(client: any) {
     this.logger.log(`Client disconnected: ${client.id}`);
-    //console.log(client.handshake.query);
   }
 
   //Verificar identidad - guardar identidad
@@ -64,15 +63,8 @@ export class MessageGateway
         msj_user_to: payload.to,
         msj_idPost_propuesta: payload.post || null,
       });
-      // console.log(newMessage);
       const newMessageSaved = await newMessage.save();
 
-      // console.log(newMessageSaved);
-      // const completeMessage = await this.mensajeRepository.findOne(
-      //   { id: newMessageSaved.id },
-      //   { relations: ['msj_idPost_propuesta'] },
-      // );
-      // console.log(completeMessage);
       this.logger.log('Cliente que emite - client.userId: ' + client.userId);
       this.logger.log('Cliente que emite: ' + payload.from);
       this.logger.log('Usuario que recibe: ' + payload.to);
@@ -101,7 +93,6 @@ export class MessageGateway
   @SubscribeMessage('messageProposal')
   async handleMessageProposal(client: any, payload: any): Promise<void> {
     //Envia mensaje hacia destino payload.data y hacia si mismo
-    // console.log(payload);
     // falta payload.data.fechaLimite
     const newPropose = this.mensajeRepository.create({
       msj_contenido: payload.data.descripcion,
@@ -120,11 +111,6 @@ export class MessageGateway
     this.logger.log('Cliente que emite - client.userId: ' + client.userId);
     this.logger.log('Cliente que emite: ' + payload.from);
     this.logger.log('Usuario que recibe: ' + payload.to);
-
-    // this.server
-    //   .to(payload.to)
-    //   .to(client.userId)
-    //   .emit('messageProposeResponse', { data: payload.data });
 
     this.server.to(payload.to).emit('messageProposeResponse', {
       data: {
@@ -165,10 +151,5 @@ export class MessageGateway
     this.server
       .to(payload.message.msjUserFromId)
       .emit('acceptYourPropose', payload);
-
-    // this.server
-    //   .to(payload.to)
-    //   .to(client.userId)
-    //   .emit('acceptYourPropose', { data: payload.data });
   }
 }
